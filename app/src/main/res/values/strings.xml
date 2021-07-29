@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pix Reward</string>
+	
+	
+	<string name="balance">Saldo</string>
+	<string name="balance_value">R$ 0,00</string>
+	<string name="points">Pontos</string>
+	<string name="points_value">0</string>
+	
+	
+	
+	<string name="app_ad_unit_id">ca-app-pub-8199467179911567~8648129487</string>
+	<string name="banner_ad_unit_id">ca-app-pub-8199467179911567/3630354444</string>
+	<string name="intersticial_ad_unit_id">ca-app-pub-8199467179911567/7813129032</string>
+	<string name="intersticial_award_winning_ad_unit_id">ca-app-pub-8199467179911567/3904913154</string>
+	<string name="video_ad_unit_id">ca-app-pub-8199467179911567/1847875545</string>
+	<!-- This is an ad unit ID for a test ad. -->
+	<string name="app_ad_unit_id_test">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="banner_ad_unit_id_test">ca-app-pub-3940256099942544/6300978111</string>
+	
+</resources>

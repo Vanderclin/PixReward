@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "639867932101",
+    "firebase_url": "https://pixreward-default-rtdb.firebaseio.com",
+    "project_id": "pixreward",
+    "storage_bucket": "pixreward.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639867932101:android:6ce172f6de00fca0638fac",
+        "android_client_info": {
+          "package_name": "ml.pixreward.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "639867932101-cgu7479cmn6u48j1j0goi2lsnl2epq30.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQ85boFuYEUVpy1frxqzxQATmVafCbEsA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "639867932101-cgu7479cmn6u48j1j0goi2lsnl2epq30.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

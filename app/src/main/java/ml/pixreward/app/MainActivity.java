@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
         mCoordinator = (CoordinatorLayout) findViewById(R.id.root_coordinator);
 		registerForContextMenu(mCoordinator);
 		// Initialize the Mobile Ads SDK.
-		MobileAds.initialize(this, getString(R.string.app_ad_unit_id_test));
+		MobileAds.initialize(this, getString(R.string.app_ad_unit_id));
         mAdView = (AdView) findViewById(R.id.ad_view);
         AdRequest adRequest = new AdRequest.Builder()
 			.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
@@ -72,6 +72,10 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     amountPoints = snapshot.child("points").getValue(Integer.class);
+                    
+                    if (amountPoints == 0 || amountPoints == null) {
+                        amountPoints = 0;
+                    }
                     String replaceValue = amountPoints.toString().replaceAll("[$,.]", "");
                     double doubleValue = Double.parseDouble(replaceValue);
                     String points = Integer.toString(amountPoints);
@@ -179,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
     }
 
     private void loadRewardedVideoAd() {
-        mRewardedVideoAd.loadAd(getString(R.string.video_ad_unit_id_test), new AdRequest.Builder().build());
+        mRewardedVideoAd.loadAd(getString(R.string.video_ad_unit_id), new AdRequest.Builder().build());
         
     }
 

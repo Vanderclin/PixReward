@@ -10,6 +10,24 @@
 	
     <string name="watching">Assistir</string>
     
+    <string name="permission_read_phone_state_rationale">permissão read_phone_state fundamento lógico</string>
+    <string name="permissions_not_granted_read_phone_state">permissões não concedidas read_phone_state</string>
+    
+    <string name="username">Nome completo</string>
+    <string name="phone">(00) 00000-0000</string>
+    
+    
+    <string name="email">E-mail</string>
+    <string name="password">Senha</string>
+    <string name="signin">Entrar</string>
+    <string name="signout">Sair</string>
+    
+    <string name="minimum_password">Senha muito curta, digite no mínimo 8 caracteres!</string>
+    <string name="auth_failed">Falha na autenticação, verifique seu e-mail ou senha</string>
+    
+    
+    
+    
     <!-- Snackbar -->
     <string name="failed_to_load_the_video">Falha ao carregar o vídeo</string>
 	

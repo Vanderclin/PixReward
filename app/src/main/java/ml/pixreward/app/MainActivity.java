@@ -30,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.NumberFormat;
 import java.util.Locale;
 import ml.pixreward.app.R;
+import android.support.design.widget.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity implements RewardedVideoAdListener {
 
@@ -38,24 +39,21 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
     private Button mButtonShowAds;
     private TextView mTextViewShowPoints, mTextViewShowBalance;
     private DatabaseReference mDatabase;
-    private Integer amountPoints;
+    private Integer amountPoints = 0;
     private CoordinatorLayout mCoordinator;
     private Toolbar mToolbar;
-    
+
     // Firebase Auth
     private FirebaseAuth mAuth;
     private String name, email, uid;
     private Uri photoUrl;
 	private boolean emailVerified;
 
+    private FloatingActionButton mFloatingSignOut;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        mToolbar = (Toolbar) findViewById(R.id.appbar);
-        setSupportActionBar(mToolbar);
-        
-        
         mAuth = FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() != null) {
             name = mAuth.getCurrentUser().getDisplayName();
@@ -68,11 +66,10 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
             startActivity(new Intent(MainActivity.this, SignInActivity.class));
             finishAffinity();
 		}
-        
-        
-        
-        
-        
+        mDatabase = FirebaseDatabase.getInstance().getReference("users").child(uid);
+        setContentView(R.layout.activity_main);
+        mToolbar = (Toolbar) findViewById(R.id.appbar);
+        setSupportActionBar(mToolbar);
         mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
         mRewardedVideoAd.setRewardedVideoAdListener(this);
         mCoordinator = (CoordinatorLayout) findViewById(R.id.root_coordinator);
@@ -86,20 +83,28 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
         mAdView.loadAd(adRequest);
 
 
-        //get the button and the textview
+        // Get ID's all Widgets
+        mFloatingSignOut = (FloatingActionButton) findViewById(R.id.fab_signout);
+        mFloatingSignOut.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mAuth.getInstance().signOut();
+                    startActivity(new Intent(MainActivity.this, SignInActivity.class));
+                }
+            });
+
+
         mButtonShowAds = (Button) findViewById(R.id.button_show_ads);
         mTextViewShowPoints = (TextView) findViewById(R.id.textview_show_points);
         mTextViewShowBalance = (TextView) findViewById(R.id.textview_show_balance);
         //get current coins from prefs initially
         // mTextViewShowPoints.setText("Coins: " + getCoinsFromPrefs());
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        mDatabase = FirebaseDatabase.getInstance().getReference("users").child(uid);
         mDatabase.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     amountPoints = snapshot.child("current_points").getValue(Integer.class);
-                    
+
                     if (amountPoints == 0 || amountPoints == null) {
                         amountPoints = 0;
                     }
@@ -211,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 
     private void loadRewardedVideoAd() {
         mRewardedVideoAd.loadAd(getString(R.string.video_ad_unit_id), new AdRequest.Builder().build());
-        
+
     }
 
     private void saveCoinsToPrefs(int amount) {

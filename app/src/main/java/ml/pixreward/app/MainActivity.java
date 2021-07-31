@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 
 	private RewardedVideoAd mRewardedVideoAd;
 	private AdView mAdView;
-    private Button mButtonShowAds;
     private TextView mTextViewShowPoints, mTextViewShowBalance;
     private DatabaseReference mDatabase;
     private Integer amountPoints = 0;
@@ -49,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
     private Uri photoUrl;
 	private boolean emailVerified;
 
-    private FloatingActionButton mFloatingSignOut;
+    private FloatingActionButton mFloatingSignOut, mFloatingAdView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
         mCoordinator = (CoordinatorLayout) findViewById(R.id.root_coordinator);
 		registerForContextMenu(mCoordinator);
 		// Initialize the Mobile Ads SDK.
-		MobileAds.initialize(this, getString(R.string.app_ad_unit_id));
+		MobileAds.initialize(this, getString(R.string.id_app));
         mAdView = (AdView) findViewById(R.id.ad_view);
         AdRequest adRequest = new AdRequest.Builder()
 			.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
@@ -93,13 +92,9 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
                 }
             });
 
-
-        mButtonShowAds = (Button) findViewById(R.id.button_show_ads);
         mTextViewShowPoints = (TextView) findViewById(R.id.textview_show_points);
         mTextViewShowBalance = (TextView) findViewById(R.id.textview_show_balance);
-        //get current coins from prefs initially
-        // mTextViewShowPoints.setText("Coins: " + getCoinsFromPrefs());
-
+        
         mDatabase.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
@@ -122,8 +117,9 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
                     Log.w("MainActivity", "Failed to read value.", error.toException());
                 }
             });
-
-        mButtonShowAds.setOnClickListener(new View.OnClickListener() {
+            
+        mFloatingAdView = (FloatingActionButton) findViewById(R.id.fab_ad_view);
+        mFloatingAdView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     loadRewardedVideoAd();
@@ -215,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
     }
 
     private void loadRewardedVideoAd() {
-        mRewardedVideoAd.loadAd(getString(R.string.video_ad_unit_id), new AdRequest.Builder().build());
+        mRewardedVideoAd.loadAd(getString(R.string.id_video), new AdRequest.Builder().build());
 
     }
 

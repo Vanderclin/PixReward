@@ -62,14 +62,5 @@
 
 	</LinearLayout>
 
-	<Button
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-        android:textAllCaps="false"
-		android:text="@string/watching"
-		android:layout_gravity="bottom|center"
-		android:layout_marginTop="16dp"
-		android:id="@+id/button_show_ads"/>
-
 </LinearLayout>
 

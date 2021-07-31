@@ -57,6 +57,14 @@
         android:src="@drawable/ic_logout_variant"
         app:layout_anchor="@id/app_bar_layout"
         app:layout_anchorGravity="bottom|right|end" />
+    
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_ad_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_video" />
 
 	<com.google.android.gms.ads.AdView
 		android:id="@+id/ad_view"
@@ -64,6 +72,6 @@
 		android:layout_height="wrap_content"
 		android:layout_gravity="bottom"
 		ads:adSize="BANNER"
-		ads:adUnitId="@string/banner_ad_unit_id"/>
+		ads:adUnitId="@string/id_banner"/>
 
 </android.support.design.widget.CoordinatorLayout>

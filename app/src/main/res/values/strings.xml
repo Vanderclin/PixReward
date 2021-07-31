@@ -1,124 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string name="account_create">Criar conta</string>
     <string name="app_name">Pix Reward</string>
-	
-	
-	<string name="balance">Saldo</string>
-	<string name="balance_value">R$0,00</string>
-	<string name="points">Pontos</string>
-	<string name="points_value">0</string>
-	
-    <string name="watching">Assistir</string>
-    
+    <string name="auth_failed">Falha na autenticação, verifique seu e-mail ou senha</string>
+    <string name="balance">Saldo</string>
+    <string name="balance_value">R$0,00</string>
+    <string name="email">E-mail</string>
+    <string name="failed_to_load_the_video">Falha ao carregar o vídeo</string>
+    <string name="full_name">Nome completo</string>
+    <string name="id_app">ca-app-pub-8199467179911567~8648129487</string>
+    <string name="id_app_test">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="id_banner">ca-app-pub-8199467179911567/3630354444</string>
+    <string name="id_banner_test">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="id_intersticial">ca-app-pub-8199467179911567/7813129032</string>
+    <string name="id_intersticial_award_winning">ca-app-pub-8199467179911567/3904913154</string>
+    <string name="id_video">ca-app-pub-8199467179911567/1847875545</string>
+    <string name="id_video_test">ca-app-pub-3940256099942544/5224354917</string>
+    <string name="minimum_password">Senha muito curta, digite no mínimo 8 caracteres!</string>
+    <string name="password">Senha</string>
     <string name="permission_read_phone_state_rationale">permissão read_phone_state fundamento lógico</string>
     <string name="permissions_not_granted_read_phone_state">permissões não concedidas read_phone_state</string>
-    
-    <string name="username">Nome completo</string>
     <string name="phone">(00) 00000-0000</string>
-    
-    
-    
-    <string name="minimum_password">Senha muito curta, digite no mínimo 8 caracteres!</string>
-    <string name="auth_failed">Falha na autenticação, verifique seu e-mail ou senha</string>
-    
-    
-    
-    
-    
-    
-    
-    <string name="account_create">Criar conta</string>
-    <string name="email">E-mail</string>
-    <string name="full_name">Nome completo</string>
-    <string name="password">Senha</string>
+    <string name="points">Pontos</string>
+    <string name="points_value">0</string>
     <string name="signin">Entrar</string>
     <string name="signout">Sair</string>
-    
-    
-    
-    <!-- Snackbar -->
-    <string name="failed_to_load_the_video">Falha ao carregar o vídeo</string>
-	
-	
-	<string name="app_ad_unit_id">ca-app-pub-8199467179911567~8648129487</string>
-	<string name="banner_ad_unit_id">ca-app-pub-8199467179911567/3630354444</string>
-	<string name="intersticial_ad_unit_id">ca-app-pub-8199467179911567/7813129032</string>
-	<string name="intersticial_award_winning_ad_unit_id">ca-app-pub-8199467179911567/3904913154</string>
-	<string name="video_ad_unit_id">ca-app-pub-8199467179911567/1847875545</string>
-	<!-- This is an ad unit ID for a test ad. -->
-	<string name="app_ad_unit_id_test">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="banner_ad_unit_id_test">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="video_ad_unit_id_test">ca-app-pub-3940256099942544/5224354917</string>
-	
-    
-    
-    <string name="hint_email">E-mail</string>
-    <string name="hint_password">Senha</string>
-    <string name="button_sign_in">Entrar</string>
-
-
-    <string name="minimum_password">Senha muito curta, digite no mínimo 8 caracteres!</string>
-    <string name="auth_failed">Falha na autenticação, verifique seu e-mail ou senha</string>
-    <string name="menu_sign_out">Sair</string>
-    <string name="points">Pontos</string>
-    <string name="loading">carregando</string>
-    <string name="balance">Saldo</string>
-    <string name="device">Dispositivo</string>
-    <string name="menu_account">Conta</string>
-    <string name="user_name">Usuário</string>
-    <string name="user_email">E-mail</string>
-    <string name="account_delete">Excluir conta</string>
-    <string name="account_create">Criar conta</string>
-    <string name="hint_name">Nome</string>
-    <string name="todo">TODO</string>
-
-
-    <string name="video_ad_loaded">Anúncio de vídeo carregado</string>
-    <string name="video_ad_opened">Anúncio de vídeo aberto</string>
-    <string name="video_ad_started">Anúncio de vídeo iniciado</string>
-    <string name="video_ad_closed">Anúncio de vídeo fechado</string>
-    <string name="video_ad_rewarded">Anúncio de vídeo recompensado</string>
-    <string name="you_have_left_the_application">Você saiu do aplicativo</string>
-    <string name="video_ad_failed_to_load">Tente novamente mais tarde</string>
-
-
-    <string name="app_unit_id">ca-app-pub-8199467179911567~8648129487</string>
-    <string name="banner_unit_id">ca-app-pub-8199467179911567/3630354444</string>
-    <string name="video_unit_id">ca-app-pub-8199467179911567/1847875545</string>
-    <string name="intersticial_unit_id">ca-app-pub-8199467179911567/7813129032</string>
-
     <string name="the_email_address_is_already_in_use_by_another_account">O endereço de e-mail já está sendo usado por outra conta</string>
-    <string name="welcome">Bem vindo!</string>
-    <string name="welcome_description">O Video Reward traz para você a oportunidade de ganhar cartão presente do Google Play Store, de forma simples.\n\n\Basta você assistir vídeos e ir acumulando pontos até alcançar o valor da recompensa.</string>
-    <string name="menu_historic">Histórico</string>
-    <string name="enable_to_delete_account">Habilitar para excluir conta</string>
-    <string name="gift_card">Cartão Presente</string>
-    <string name="user_account_deleted">Conta do usuário excluída</string>
-    <string name="registration_date">Data de registro</string>
-    <string name="informations">Informações</string>
-    <string name="update">Atualizar</string>
-    <string name="new_version_available">Nova versão disponível</string>
-    <string name="installed">Instalado</string>
-    <string name="available">Disponível</string>
-    <string name="new_updating">Nova atualização</string>
-    <string name="permission_not_granted">Permissão não concedida</string>
-
-
-    <string name="message">Mensagem</string>
-    <string name="send">Enviar</string>
-
-    <string name="username">Usuário</string>
-    <string name="time">Tempo</string>
-    <string name="type_a_message">Digite uma mensagem</string>
-    <string name="message_deleted">Mensagem apagada</string>
-    <string name="downloading">Baixando</string>
-    <string name="update_completed">Atualização concluída</string>
-    <string name="error_try_again">Erro: tente novamente</string>
-    <string name="complete">Completos</string>
-    <string name="incomplete">Incompletos</string>
-    <string name="request">Solicitar</string>
-
-
-    <string name="avatar_price">A alteração de um avatar, é cobrado o valor de 50 pontos</string>
-    <string name="avatar_warning">Você ainda não possui um avatar para usar o bate-papo, para escolher seu avatar você precisa voltar a tela inicial e clicar no menu da conta.\nApós isso clique na imagem do lado esquerdo do seu nome e escolha um avatar!</string>
+    <string name="username">Nome completo</string>
+    <string name="watching">Assistir</string>
+    
 </resources>

@@ -4,19 +4,25 @@
     <string name="account_create">Criar conta</string>
     <string name="app_name">Pix Reward</string>
     <string name="auth_failed">Falha na autenticação, verifique seu e-mail ou senha</string>
+	<string name="award_code">Código premiado</string>
     <string name="balance">Saldo</string>
     <string name="balance_value">R$0,00</string>
+	<string name="check">Verificar</string>
     <string name="email">E-mail</string>
     <string name="failed_to_load_the_video">Falha ao carregar o vídeo</string>
     <string name="full_name">Nome completo</string>
+	
     <string name="id_app">ca-app-pub-8199467179911567~8648129487</string>
     <string name="id_app_test">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="id_banner">ca-app-pub-8199467179911567/3630354444</string>
+	
+    <string name="id_banner">ca-app-pub-8199467179911567/3664559750</string>
     <string name="id_banner_test">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="id_intersticial">ca-app-pub-8199467179911567/7813129032</string>
-    <string name="id_intersticial_award_winning">ca-app-pub-8199467179911567/3904913154</string>
-    <string name="id_video">ca-app-pub-8199467179911567/1847875545</string>
+	
+	<string name="id_intersticial">ca-app-pub-8199467179911567/1343865782</string>
+	
+    <string name="id_video">ca-app-pub-8199467179911567/9439630610</string>
     <string name="id_video_test">ca-app-pub-3940256099942544/5224354917</string>
+	
     <string name="minimum_password">Senha muito curta, digite no mínimo 8 caracteres!</string>
     <string name="password">Senha</string>
     <string name="permission_read_phone_state_rationale">permissão read_phone_state fundamento lógico</string>

@@ -6,22 +6,23 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,12 +30,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.text.NumberFormat;
 import java.util.Locale;
+import ml.pixreward.app.MainActivity;
 import ml.pixreward.app.R;
-import android.support.design.widget.FloatingActionButton;
+import ml.pixreward.updating.UpdateChecker;
 
 public class MainActivity extends AppCompatActivity implements RewardedVideoAdListener {
 
 	private RewardedVideoAd mRewardedVideoAd;
+	private InterstitialAd mInterstitialAd;
+	private AdListener mAdListener;
+	private AdRequest adRequest;
 	private AdView mAdView;
     private TextView mTextViewShowPoints, mTextViewShowBalance;
     private DatabaseReference mDatabase;
@@ -69,6 +74,9 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.appbar);
         setSupportActionBar(mToolbar);
+        checkUpdate();
+        
+        
         mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
         mRewardedVideoAd.setRewardedVideoAdListener(this);
         mCoordinator = (CoordinatorLayout) findViewById(R.id.root_coordinator);
@@ -80,6 +88,11 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 			.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
 			.build();
         mAdView.loadAd(adRequest);
+		
+		mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getString(R.string.id_intersticial));
+        mInterstitialAd.setAdListener(mAdListener);
+        mInterstitialAd.loadAd(adRequest);
 
 
         // Get ID's all Widgets
@@ -151,6 +164,10 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
     @Override
     public void onRewardedVideoAdClosed() {
         Toast.makeText(this, "video ad closed", Toast.LENGTH_SHORT).show();
+		if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+            mInterstitialAd.loadAd(adRequest);
+        }
     }
 
     @Override
@@ -162,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
         saveCoinsToPrefs(getCoinsFromPrefs() + rewardItem.getAmount());
 
         amountPoints += rewardItem.getAmount();
-        mDatabase.child("points").setValue(amountPoints);
+        mDatabase.child("current_points").setValue(amountPoints);
 
         //set the coins that for user
         // mTextViewShowPoints.setText("Coins: " + getCoinsFromPrefs());
@@ -175,6 +192,10 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 
     @Override
     public void onRewardedVideoAdFailedToLoad(int i) {
+		if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+            mInterstitialAd.loadAd(adRequest);
+        }
         Snackbar snackbar = Snackbar.make(mCoordinator, getString(R.string.failed_to_load_the_video), Snackbar.LENGTH_LONG);
         snackbar.setDuration(6000);
         snackbar.show();
@@ -227,5 +248,10 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
         int coins = sharedPref.getInt("COINS", 0);
         return coins;
     }
+    
+    private void checkUpdate() {
+        UpdateChecker.checkForDialog(MainActivity.this);
+        UpdateChecker.checkForNotification(MainActivity.this);
+	}
 
 }

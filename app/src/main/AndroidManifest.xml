@@ -30,7 +30,11 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
-
+        </activity>
+        
+        <activity
+            android:name=".SignUpActivity"
+            android:label="@string/app_name">
         </activity>
 
     </application>

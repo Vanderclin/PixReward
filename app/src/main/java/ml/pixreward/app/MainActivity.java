@@ -1,11 +1,14 @@
 package ml.pixreward.app;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +20,8 @@ import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.ads.reward.RewardItem;
 import com.google.android.gms.ads.reward.RewardedVideoAd;
 import com.google.android.gms.ads.reward.RewardedVideoAdListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,7 +30,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.NumberFormat;
 import java.util.Locale;
 import ml.pixreward.app.R;
-import android.support.v7.widget.Toolbar;
 
 public class MainActivity extends AppCompatActivity implements RewardedVideoAdListener {
 
@@ -37,6 +41,12 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
     private Integer amountPoints;
     private CoordinatorLayout mCoordinator;
     private Toolbar mToolbar;
+    
+    // Firebase Auth
+    private FirebaseAuth mAuth;
+    private String name, email, uid;
+    private Uri photoUrl;
+	private boolean emailVerified;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +54,23 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.appbar);
         setSupportActionBar(mToolbar);
+        
+        
+        mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null) {
+            name = mAuth.getCurrentUser().getDisplayName();
+            email = mAuth.getCurrentUser().getEmail();
+            uid = mAuth.getCurrentUser().getUid();
+            photoUrl = mAuth.getCurrentUser().getPhotoUrl();
+            emailVerified = mAuth.getCurrentUser().isEmailVerified();
+
+        } else {
+            startActivity(new Intent(MainActivity.this, SignInActivity.class));
+            finishAffinity();
+		}
+        
+        
+        
         
         
         mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
@@ -67,11 +94,11 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
         // mTextViewShowPoints.setText("Coins: " + getCoinsFromPrefs());
 
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        mDatabase = FirebaseDatabase.getInstance().getReference("users");
+        mDatabase = FirebaseDatabase.getInstance().getReference("users").child(uid);
         mDatabase.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
-                    amountPoints = snapshot.child("points").getValue(Integer.class);
+                    amountPoints = snapshot.child("current_points").getValue(Integer.class);
                     
                     if (amountPoints == 0 || amountPoints == null) {
                         amountPoints = 0;

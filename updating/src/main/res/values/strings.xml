@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="new_version_found">Nova versão encontrada</string>
-
-    <string name="found_a_new_version_click_to_update">Encontrou uma nova versão, clique para atualizar</string>
-
-    <string name="download">Baixar</string>
+	
     <string name="cancel">Cancelar</string>
-
-    <string name="last_installed_version">Última versão instalada</string>
-
-    <string name="downloading">Baixando: %1$d%%</string>
-
-    <string name="checking_the_version">Verificando a versão</string>
-
-
+	<string name="checking_the_version">Verificando a versão</string>
+	<string name="download">Baixar</string>
+	<string name="downloading">Baixando: %1$d%%</string>
+	<string name="last_installed_version">Última versão instalada</string>
+	<string name="new_update_click_to_update">Nova atualização, clique para atualizar.</string>
+	<string name="update">Atualização</string>
+	
 </resources>

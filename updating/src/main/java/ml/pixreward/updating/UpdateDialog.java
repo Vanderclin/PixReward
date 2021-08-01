@@ -12,7 +12,7 @@ class UpdateDialog {
     static void show(final Context context, String content, final String downloadUrl) {
         if (isContextValid(context)) {
             new AlertDialog.Builder(context)
-                    .setTitle(R.string.new_version_found)
+                    .setTitle(R.string.update)
                     .setMessage(content)
                     .setPositiveButton(R.string.download, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {

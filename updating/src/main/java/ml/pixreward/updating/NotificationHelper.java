@@ -62,7 +62,7 @@ public class NotificationHelper extends ContextWrapper {
 
     private NotificationCompat.Builder getNofity(String text) {
         return new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
-                .setTicker(getString(R.string.found_a_new_version_click_to_update))
+                .setTicker(getString(R.string.new_update_click_to_update))
 			.setContentTitle("Atualização de aplicativo")
                 .setContentText(text)
                 .setSmallIcon(getSmallIcon())

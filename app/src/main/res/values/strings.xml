@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+	
+	<string name="about">Sobre</string>
     <string name="account_create">Criar conta</string>
     <string name="app_name">Pix Reward</string>
     <string name="auth_failed">Falha na autenticação, verifique seu e-mail ou senha</string>
@@ -30,6 +31,7 @@
     <string name="phone">(00) 00000-0000</string>
     <string name="points">Pontos</string>
     <string name="points_value">0</string>
+	<string name="settings">Configurações</string>
     <string name="signin">Entrar</string>
     <string name="signout">Sair</string>
     <string name="the_email_address_is_already_in_use_by_another_account">O endereço de e-mail já está sendo usado por outra conta</string>

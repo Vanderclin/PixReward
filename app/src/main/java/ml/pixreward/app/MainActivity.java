@@ -2,6 +2,7 @@ package ml.pixreward.app;
 
 import android.annotation.NonNull;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
@@ -10,19 +11,17 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.ads.AdListener;
@@ -53,16 +52,19 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 	private AdRequest adRequest;
 	private AdView mAdView;
     private TextView mTextViewShowPoints, mTextViewShowBalance, mTextViewPreviewCode;
-    private DatabaseReference mDatabase, mDatabaseCode;
+    private DatabaseReference mDatabase, mDatabaseAdmin;
     private Integer amountPoints = 0;
     private CoordinatorLayout mCoordinator;
     private Toolbar mToolbar;
     private FirebaseAuth mAuth;
     private String name, email, uid;
     private Uri photoUrl;
-	private boolean emailVerified;
+	private boolean emailVerified, mValue;
     private FloatingActionButton mFloatingSignOut, mFloatingAdView;
+	
+	private Integer rescueValue;
 
+	private CardView mCardViewFreeFire, mCardViewGooglePlay, mCardViewNetflix, mCardViewPix;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
             finishAffinity();
 		}
         mDatabase = FirebaseDatabase.getInstance().getReference("users").child(uid);
-		mDatabaseCode = FirebaseDatabase.getInstance().getReference("code");
+		mDatabaseAdmin = FirebaseDatabase.getInstance().getReference("admin");
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.appbar);
         setSupportActionBar(mToolbar);
@@ -114,6 +116,25 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 
         mTextViewShowPoints = (TextView) findViewById(R.id.textview_show_points);
         mTextViewShowBalance = (TextView) findViewById(R.id.textview_show_balance);
+		mCardViewFreeFire = (CardView) findViewById(R.id.cardViewFreeFire);
+		mCardViewGooglePlay = (CardView) findViewById(R.id.cardViewGooglePlay);
+		mCardViewNetflix = (CardView) findViewById(R.id.cardViewNetflix);
+		mCardViewPix = (CardView) findViewById(R.id.cardViewPix);
+
+		mDatabaseAdmin.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    rescueValue = snapshot.child("rescue_value").getValue(Integer.class);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Log.w("MainActivity", "Failed to read value.", error.toException());
+                }
+            });
+		
+		
         mDatabase.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
@@ -137,7 +158,6 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
                 }
             });
 
-
         mFloatingAdView = (FloatingActionButton) findViewById(R.id.fab_ad_view);
         mFloatingAdView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -146,6 +166,58 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 
                 }
             });
+		mCardViewFreeFire.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (amountPoints >= rescueValue) {
+						String type = "Free Fire";
+						String description = "O resgate do cartão presente para Free Fire pode levar até 3 dias uteis";
+						openDialog(type, description);
+					} else {
+						Toast.makeText(MainActivity.this, getString(R.string.insufficient_funds), Toast.LENGTH_LONG).show();
+					}
+				}
+			});
+		mCardViewGooglePlay.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (amountPoints >= rescueValue) {
+						String type = "Google Play";
+						String description = "O resgate do cartão presente para Google Play pode levar até 3 dias uteis";
+						openDialog(type, description);
+					} else {
+						Toast.makeText(MainActivity.this, getString(R.string.insufficient_funds), Toast.LENGTH_LONG).show();
+					}
+				}
+			});
+		mCardViewNetflix.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (amountPoints >= rescueValue) {
+						String type = "Netflix";
+						String description = "O resgate do cartão presente para Netflix pode levar até 3 dias uteis";
+						openDialog(type, description);
+					} else {
+						Toast.makeText(MainActivity.this, getString(R.string.insufficient_funds), Toast.LENGTH_LONG).show();
+					}
+				}
+			});
+
+		mCardViewPix.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (amountPoints >= rescueValue) {
+						String type = "Pix";
+						String description = "O resgate do Pix pode levar até 24 horas, até a confirmação dos dados do usuário.";
+						openDialog(type, description);
+					} else {
+						Toast.makeText(MainActivity.this, getString(R.string.insufficient_funds), Toast.LENGTH_LONG).show();
+					}
+				}
+			});
+
+
+
     }
 
 	@Override
@@ -258,22 +330,38 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 
     }
 
-    private void saveCoinsToPrefs(int amount) {
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putInt("COINS", amount);
-        editor.apply();
-    }
-
-    private int getCoinsFromPrefs() {
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        int coins = sharedPref.getInt("COINS", 0);
-        return coins;
-    }
-
     private void checkUpdate() {
         UpdateChecker.checkForDialog(MainActivity.this);
         UpdateChecker.checkForNotification(MainActivity.this);
+	}
+
+	private void openDialog(String type, String description) {
+		AlertDialog.Builder mAlertDialog = new AlertDialog.Builder(this);
+		LayoutInflater inflater = getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.dialog_rescue, null);
+		mAlertDialog.setView(dialogView);
+		final TextView rescueType = dialogView.findViewById(R.id.rescueType);
+		final TextView rescueDescription = dialogView.findViewById(R.id.rescueDescription);
+        final Button mButtonCancel = dialogView.findViewById(R.id.dialogBescueButtonCancel);
+		final Button mButtonRescue = dialogView.findViewById(R.id.dialogRescueButtonRescue);
+		final AlertDialog mAlert = mAlertDialog.create();
+		rescueType.setText(type);
+		rescueDescription.setText(description);
+		mAlert.setCancelable(false);
+		mAlert.show();
+		mButtonCancel.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					mAlert.dismiss();
+				}
+			});
+		mButtonRescue.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					mDatabase.child("current_points").setValue(amountPoints - rescueValue);
+					mAlert.dismiss();
+				}
+			});
 	}
 
 }

@@ -44,6 +44,8 @@ public class MessageActivity extends AppCompatActivity {
     private String name, email, uid;
     private Uri photoUrl;
 	private boolean emailVerified;
+	
+	private MessageAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +104,7 @@ public class MessageActivity extends AppCompatActivity {
 					return true;
 				}
 			});
+			
     }
 
     @Override
@@ -115,12 +118,12 @@ public class MessageActivity extends AppCompatActivity {
 						msg = postSnapshot.getValue(Message.class);
 						MessageList.add(msg);
 					}
-					final MessageAdapter myAdapter = new MessageAdapter(MessageActivity.this, MessageList);
-					mListView.setAdapter(myAdapter);
+					mAdapter = new MessageAdapter(MessageActivity.this, MessageList);
+					mListView.setAdapter(mAdapter);
 					mListView.post(new Runnable() {
 							@Override
 							public void run() {
-								mListView.setSelection(myAdapter.getCount() - 1);
+								mListView.setSelection(mAdapter.getCount() - 1);
 							}
 						});
 				}

@@ -1,16 +1,27 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
+	signingConfigs {
+        release {
+            storeFile file('/storage/emulated/0/AppProjects/publish.keystore')
+            storePassword '499119'
+            keyAlias 'vanderclin'
+            keyPassword '499119'
+        }
+        debug {
+            storeFile file('/storage/emulated/0/AppProjects/publish.keystore')
+            storePassword '499119'
+            keyAlias 'vanderclin'
+            keyPassword '499119'
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId "ml.pixreward.app"
         multiDexEnabled true
-        minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 10
-        versionName "1.0"
     }
 
     buildTypes {
@@ -18,7 +29,7 @@ android {
             minifyEnabled true
             shrinkResources true
             signingConfig getSigningConfig().release
-            debuggable true
+            debuggable false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

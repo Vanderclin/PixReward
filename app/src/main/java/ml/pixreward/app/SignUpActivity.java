@@ -1,17 +1,19 @@
 package ml.pixreward.app;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -20,19 +22,18 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import ml.pixreward.app.R;
 
 public class SignUpActivity extends AppCompatActivity {
     
-    private EditText mEditFullName, mEditEmail, mEditPassword;
+    private EditText mEditFullName, mEditEmail, mEditPixKey, mEditPassword;
     private Button buttonSignUp;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
+	
+	private String fullname, email, pixkey, password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,31 +42,37 @@ public class SignUpActivity extends AppCompatActivity {
 
         //Get Firebase auth instance
         mAuth = FirebaseAuth.getInstance();
-
-        buttonSignUp = (Button) findViewById(R.id.sign_up_button);
+        
         mEditFullName = (EditText) findViewById(R.id.fullname);
         mEditEmail = (EditText) findViewById(R.id.email);
+		mEditPixKey = (EditText) findViewById(R.id.pixkey);
         mEditPassword = (EditText) findViewById(R.id.password);
+		buttonSignUp = (Button) findViewById(R.id.sign_up_button);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
-
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    String email = mEditEmail.getText().toString().trim();
-                    String password = mEditPassword.getText().toString().trim();
-
+					
+					fullname = mEditFullName.getText().toString();
+					email = mEditEmail.getText().toString().toString();
+					pixkey = mEditPixKey.getText().toString();
+					password = mEditPassword.getText().toString().trim();
+					
+					if (TextUtils.isEmpty(fullname)) {
+						Toast.makeText(getApplicationContext(), getString(R.string.enter_full_name), Toast.LENGTH_SHORT).show();
+					}
                     if (TextUtils.isEmpty(email)) {
-                        Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.enter_the_email), Toast.LENGTH_SHORT).show();
                         return;
                     }
-
+					if (TextUtils.isEmpty(pixkey)) {
+						Toast.makeText(getApplicationContext(), getString(R.string.enter_pix_key), Toast.LENGTH_SHORT).show();
+					}
                     if (TextUtils.isEmpty(password)) {
-                        Toast.makeText(getApplicationContext(), "Enter password!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.enter_password), Toast.LENGTH_SHORT).show();
                         return;
                     }
-
-                    if (password.length() < 6) {
+                    if (password.length() < 8) {
                         Toast.makeText(getApplicationContext(), getString(R.string.minimum_password), Toast.LENGTH_LONG).show();
                         return;
                     }
@@ -117,6 +124,8 @@ public class SignUpActivity extends AppCompatActivity {
 									}
                                     Map<String, Object> values = new HashMap<>();
                                     values.put("current_points", points);
+									values.put("current_email", email);
+									values.put("current_pix", pixkey);
                                     values.put("current_device", device_manufacturer + " " + device_model);
                                     values.put("current_username", fullname);
 									values.put("current_app_version", versionName);
@@ -143,4 +152,5 @@ public class SignUpActivity extends AppCompatActivity {
         super.onResume();
         progressBar.setVisibility(View.GONE);
     }
+	
 }

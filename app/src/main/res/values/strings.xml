@@ -5,7 +5,7 @@
     <string name="account_create">Criar conta</string>
     <string name="app_name">Pix Reward</string>
     <string name="auth_failed">Falha na autenticação, verifique seu e-mail ou senha</string>
-	<string name="award_code">Código premiado</string>
+	<string name="award_code">Código Premiado</string>
     <string name="balance">Saldo</string>
     <string name="balance_value">R$0,00</string>
 	<string name="check">Verificar</string>
@@ -29,6 +29,7 @@
     <string name="permission_read_phone_state_rationale">permissão read_phone_state fundamento lógico</string>
     <string name="permissions_not_granted_read_phone_state">permissões não concedidas read_phone_state</string>
     <string name="phone">(00) 00000-0000</string>
+	<string name="pix_key">Chave Pix</string>
     <string name="points">Pontos</string>
     <string name="points_value">0</string>
 	<string name="settings">Configurações</string>
@@ -40,6 +41,14 @@
 	<string name="version_number_unknown">Número da versão desconhecida</string>
     <string name="watching">Assistir</string>
 	
-	<string name="enter_a_message">Digite uma mensagem</string>
+	<string name="type_a_message">Digite uma mensagem</string>
     
+	<string name="insufficient_funds">Saldo insuficiente</string>
+	<string name="enter_full_name">Insira o nome completo</string>
+	<string name="enter_the_email">Insira o e-mail</string>
+	<string name="enter_pix_key">Insira a chave pix</string>
+	<string name="enter_password">Insira a senha</string>
+	
+	<string name="cancel">Cancelar</string>
+	<string name="rescue">Resgatar</string>
 </resources>

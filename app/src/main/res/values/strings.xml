@@ -34,8 +34,10 @@
 	<string name="settings">Configurações</string>
     <string name="signin">Entrar</string>
     <string name="signout">Sair</string>
+	<string name="signup">Inscrever-se</string>
     <string name="the_email_address_is_already_in_use_by_another_account">O endereço de e-mail já está sendo usado por outra conta</string>
     <string name="username">Nome completo</string>
+	<string name="version_number_unknown">Número da versão desconhecida</string>
     <string name="watching">Assistir</string>
     
 </resources>

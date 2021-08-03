@@ -4,6 +4,7 @@ import android.annotation.NonNull;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -11,11 +12,17 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.ads.AdListener;
@@ -45,19 +52,17 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 	private AdListener mAdListener;
 	private AdRequest adRequest;
 	private AdView mAdView;
-    private TextView mTextViewShowPoints, mTextViewShowBalance;
-    private DatabaseReference mDatabase;
+    private TextView mTextViewShowPoints, mTextViewShowBalance, mTextViewPreviewCode;
+    private DatabaseReference mDatabase, mDatabaseCode;
     private Integer amountPoints = 0;
     private CoordinatorLayout mCoordinator;
     private Toolbar mToolbar;
-
-    // Firebase Auth
     private FirebaseAuth mAuth;
     private String name, email, uid;
     private Uri photoUrl;
 	private boolean emailVerified;
-
     private FloatingActionButton mFloatingSignOut, mFloatingAdView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,12 +80,11 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
             finishAffinity();
 		}
         mDatabase = FirebaseDatabase.getInstance().getReference("users").child(uid);
+		mDatabaseCode = FirebaseDatabase.getInstance().getReference("code");
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.appbar);
         setSupportActionBar(mToolbar);
         checkUpdate();
-        
-        
         mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
         mRewardedVideoAd.setRewardedVideoAdListener(this);
         mCoordinator = (CoordinatorLayout) findViewById(R.id.root_coordinator);
@@ -92,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 			.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
 			.build();
         mAdView.loadAd(adRequest);
-		
+
 		mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getString(R.string.id_intersticial));
         mInterstitialAd.setAdListener(mAdListener);
@@ -104,14 +108,12 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
         mFloatingSignOut.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mAuth.getInstance().signOut();
-                    startActivity(new Intent(MainActivity.this, SignInActivity.class));
+					startActivity(new Intent(MainActivity.this, MessageActivity.class));
                 }
             });
 
         mTextViewShowPoints = (TextView) findViewById(R.id.textview_show_points);
         mTextViewShowBalance = (TextView) findViewById(R.id.textview_show_balance);
-        
         mDatabase.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
@@ -123,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
                     String replaceValue = amountPoints.toString().replaceAll("[$,.]", "");
                     double doubleValue = Double.parseDouble(replaceValue);
                     String points = Integer.toString(amountPoints);
-                    String balance = NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format((doubleValue / 100));
+                    String balance = NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format((doubleValue / 1000));
                     mTextViewShowPoints.setText(points);
                     mTextViewShowBalance.setText(balance);
                 }
@@ -134,7 +136,8 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
                     Log.w("MainActivity", "Failed to read value.", error.toException());
                 }
             });
-            
+
+
         mFloatingAdView = (FloatingActionButton) findViewById(R.id.fab_ad_view);
         mFloatingAdView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -144,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
                 }
             });
     }
-	
+
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -159,15 +162,18 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 				return true;
 			case R.id.menu_settings:
                 return true;
+			case R.id.menu_signout:
+				mAuth.getInstance().signOut();
+				startActivity(new Intent(MainActivity.this, SignInActivity.class));
+				finish();
+				return true;
         }
         return super.onOptionsItemSelected(item);
     }
-	
+
 
     @Override
     public void onRewardedVideoAdLoaded() {
-        Toast.makeText(this, "video ad loaded", Toast.LENGTH_SHORT).show();
-        //show video when ad is loaded
         if (mRewardedVideoAd.isLoaded()) {
             mRewardedVideoAd.show();
         }
@@ -176,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 
     @Override
     public void onRewardedVideoAdOpened() {
-        Toast.makeText(this, "video ad opened", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -186,7 +191,6 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 
     @Override
     public void onRewardedVideoAdClosed() {
-        Toast.makeText(this, "video ad closed", Toast.LENGTH_SHORT).show();
 		if (mInterstitialAd.isLoaded()) {
             mInterstitialAd.show();
             mInterstitialAd.loadAd(adRequest);
@@ -195,17 +199,11 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 
     @Override
     public void onRewarded(RewardItem rewardItem) {
-        Toast.makeText(this, "onRewarded! currency: " + rewardItem.getType() + "  amount: " +
-                       rewardItem.getAmount(), Toast.LENGTH_SHORT).show();
-
-        //add the new coins to the saved coins in prefs
-        saveCoinsToPrefs(getCoinsFromPrefs() + rewardItem.getAmount());
-
         amountPoints += rewardItem.getAmount();
         mDatabase.child("current_points").setValue(amountPoints);
-
-        //set the coins that for user
-        // mTextViewShowPoints.setText("Coins: " + getCoinsFromPrefs());
+		int audio = getResources().getIdentifier("add_coin", "raw", getPackageName());
+		MediaPlayer mediaPlayer = MediaPlayer.create(this, audio);
+		mediaPlayer.start();
     }
 
     @Override
@@ -222,6 +220,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
         Snackbar snackbar = Snackbar.make(mCoordinator, getString(R.string.failed_to_load_the_video), Snackbar.LENGTH_LONG);
         snackbar.setDuration(6000);
         snackbar.show();
+		loadRewardedVideoAd();
     }
 
 	/** Called when leaving the activity */
@@ -271,7 +270,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
         int coins = sharedPref.getInt("COINS", 0);
         return coins;
     }
-    
+
     private void checkUpdate() {
         UpdateChecker.checkForDialog(MainActivity.this);
         UpdateChecker.checkForNotification(MainActivity.this);

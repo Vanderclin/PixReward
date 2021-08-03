@@ -66,7 +66,7 @@ public class SignUpActivity extends AppCompatActivity {
                     }
 
                     if (password.length() < 6) {
-                        Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), getString(R.string.minimum_password), Toast.LENGTH_LONG).show();
                         return;
                     }
 
@@ -108,11 +108,18 @@ public class SignUpActivity extends AppCompatActivity {
                                     String device_manufacturer = Build.MANUFACTURER;
                                     String device_model = Build.MODEL;
 
-
+									String versionName;
+									try {
+										versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+									} catch (Exception e)
+									{
+										versionName = getString(R.string.version_number_unknown);
+									}
                                     Map<String, Object> values = new HashMap<>();
                                     values.put("current_points", points);
                                     values.put("current_device", device_manufacturer + " " + device_model);
                                     values.put("current_username", fullname);
+									values.put("current_app_version", versionName);
                                     mRef.setValue(values);
 
                                     new android.os.Handler().postDelayed(

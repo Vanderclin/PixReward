@@ -89,6 +89,7 @@
 		android:layout_gravity="center"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:enabled="false"
 		card_view:cardCornerRadius="5dp"
 		style="@style/CardViewTheme">
 
@@ -102,12 +103,23 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="Em breve"
+					android:textAppearance="?android:attr/textAppearanceSmall"
+					android:gravity="center"
+					android:id="@+id/previewCode"/>
+
 				<EditText
 					android:id="@+id/award_code"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:hint="@string/award_code"
 					android:inputType="textEmailAddress"
+					android:focusableInTouchMode="true"
+					android:focusable="true"
+					android:maxLength="17"
 					android:singleLine="true"/>
 
 			</android.support.design.widget.TextInputLayout>
@@ -117,7 +129,9 @@
 				android:layout_height="wrap_content"
 				android:text="@string/check"
 				android:textAllCaps="false"
-				android:layout_marginTop="@dimen/activity_vertical_margin"/>
+				android:layout_marginTop="@dimen/activity_vertical_margin"
+				style="@style/ButtonTheme"
+				android:id="@+id/checkCode"/>
 
 		</LinearLayout>
 

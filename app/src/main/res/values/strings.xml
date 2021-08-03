@@ -39,5 +39,7 @@
     <string name="username">Nome completo</string>
 	<string name="version_number_unknown">Número da versão desconhecida</string>
     <string name="watching">Assistir</string>
+	
+	<string name="enter_a_message">Digite uma mensagem</string>
     
 </resources>

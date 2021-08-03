@@ -1,13 +1,12 @@
 package ml.pixreward.app;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,6 +16,14 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.reward.RewardItem;
+import com.google.android.gms.ads.reward.RewardedVideoAd;
+import com.google.android.gms.ads.reward.RewardedVideoAdListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,14 +38,14 @@ import java.util.List;
 import ml.pixreward.app.MessageActivity;
 import ml.pixreward.app.R;
 
-public class MessageActivity extends AppCompatActivity {
+public class MessageActivity extends AppCompatActivity implements RewardedVideoAdListener {
 
     private EditText mEditText;
     private ImageButton mImageButton;
     private ListView mListView;
 	private Message msg;
     private List<Message> MessageList;
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase, mDatabaseMessage;
 	
 	private FirebaseAuth mAuth;
     private String name, email, uid;
@@ -46,7 +53,15 @@ public class MessageActivity extends AppCompatActivity {
 	private boolean emailVerified;
 	
 	private MessageAdapter mAdapter;
-
+	
+	private RewardedVideoAd mRewardedVideoAd;
+	private InterstitialAd mInterstitialAd;
+	private AdListener mAdListener;
+	private AdRequest adRequest;
+	private AdView mAdView;
+	
+	private Integer amountPoints;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,15 +78,35 @@ public class MessageActivity extends AppCompatActivity {
             startActivity(new Intent(MessageActivity.this, SignInActivity.class));
             finishAffinity();
 		}
+		mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
+        mRewardedVideoAd.setRewardedVideoAdListener(MessageActivity.this);
+		MobileAds.initialize(this, getString(R.string.id_app));
+		adRequest = new AdRequest.Builder()
+			.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+			.build();
+		mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getString(R.string.id_intersticial));
+        mInterstitialAd.setAdListener(mAdListener);
+        mInterstitialAd.loadAd(adRequest);
 		
-		
-		
-		
-        mDatabase = FirebaseDatabase.getInstance().getReference("message");
+		mDatabase = FirebaseDatabase.getInstance().getReference("users").child(uid);
+        mDatabaseMessage = FirebaseDatabase.getInstance().getReference("message");
         mEditText = (EditText) findViewById(R.id.message_in);
         mListView = (ListView) findViewById(R.id.message_view);
         mImageButton = (ImageButton) findViewById(R.id.button_send);
         MessageList = new ArrayList<>();
+		
+		mDatabase.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    amountPoints = snapshot.child("current_points").getValue(Integer.class);
+                }
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Log.w("MainActivity", "Failed to read value.", error.toException());
+                }
+            });
 		
         mImageButton.setOnClickListener(new View.OnClickListener() {
 				@Override
@@ -82,15 +117,17 @@ public class MessageActivity extends AppCompatActivity {
 					SimpleDateFormat formatter = new SimpleDateFormat("hh:mm - dd/MM/yyyy");
 					String time = formatter.format(today);
 					if (!TextUtils.isEmpty(message)) {
-						String id = mDatabase.push().getKey();
+						String id = mDatabaseMessage.push().getKey();
 						Message msg = new Message(id, name, message, time, uid);
-						mDatabase.child(id).setValue(msg);
+						mDatabaseMessage.child(id).setValue(msg);
 						mEditText.setText("");
+						loadRewardedVideoAd();
 					} else {
 						Toast.makeText(MessageActivity.this, "Type a message", Toast.LENGTH_LONG).show();
 					}
 				}
 			});
+			
 
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 				@Override
@@ -106,11 +143,57 @@ public class MessageActivity extends AppCompatActivity {
 			});
 			
     }
+	
+	@Override
+	public void onRewardedVideoAdLoaded() {
+		if (mRewardedVideoAd.isLoaded()) {
+            mRewardedVideoAd.show();
+        }
+	}
+
+	@Override
+	public void onRewardedVideoAdOpened() {
+	}
+
+	@Override
+	public void onRewardedVideoStarted() {
+	}
+
+	@Override
+	public void onRewardedVideoAdClosed() {
+		if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+            mInterstitialAd.loadAd(adRequest);
+        }
+	}
+
+	@Override
+	public void onRewarded(RewardItem rewardItem) {
+		amountPoints += rewardItem.getAmount();
+        mDatabase.child("current_points").setValue(amountPoints);
+	}
+
+	@Override
+	public void onRewardedVideoAdLeftApplication() {
+	}
+
+	@Override
+	public void onRewardedVideoAdFailedToLoad(int p1) {
+		if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+            mInterstitialAd.loadAd(adRequest);
+        }
+	}
+	
+	private void loadRewardedVideoAd() {
+        mRewardedVideoAd.loadAd(getString(R.string.id_video_two), new AdRequest.Builder().build());
+
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        mDatabaseMessage.addValueEventListener(new ValueEventListener() {
 				@Override
 				public void onDataChange(DataSnapshot dataSnapshot) {
 					MessageList.clear();
@@ -147,7 +230,7 @@ public class MessageActivity extends AppCompatActivity {
 
         final TextView messageAlert = dialogView.findViewById(R.id.message_alert);
 
-        messageAlert.setText("Apagar mensagem?");
+        messageAlert.setText(getString(R.string.delete_message));
         final AlertDialog b = dialogBuilder.create();
         b.show();
 
@@ -171,8 +254,8 @@ public class MessageActivity extends AppCompatActivity {
 	
 	
     private boolean deleteMessage(String id) {
-        mDatabase.child(id).removeValue();
-        Toast.makeText(getApplicationContext(), "Mensagem apagada!", Toast.LENGTH_LONG).show();
+        mDatabaseMessage.child(id).removeValue();
+        Toast.makeText(getApplicationContext(), getString(R.string.message_deleted), Toast.LENGTH_LONG).show();
 
         return true;
     }

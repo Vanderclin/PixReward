@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 	private AdView mAdView;
     private TextView mTextViewShowPoints, mTextViewShowBalance, mTextViewPreviewCode;
     private DatabaseReference mDatabase, mDatabaseAdmin;
-    private Integer amountPoints = 0;
+    private Integer amountPoints;
     private CoordinatorLayout mCoordinator;
     private Toolbar mToolbar;
     private FirebaseAuth mAuth;
@@ -139,10 +139,11 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     amountPoints = snapshot.child("current_points").getValue(Integer.class);
-
+					/*
                     if (amountPoints == 0 || amountPoints == null) {
                         amountPoints = 0;
                     }
+					*/
                     String replaceValue = amountPoints.toString().replaceAll("[$,.]", "");
                     double doubleValue = Double.parseDouble(replaceValue);
                     String points = Integer.toString(amountPoints);
@@ -258,7 +259,6 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 
     @Override
     public void onRewardedVideoStarted() {
-        Toast.makeText(this, "video ad started", Toast.LENGTH_SHORT).show();
     }
 
     @Override

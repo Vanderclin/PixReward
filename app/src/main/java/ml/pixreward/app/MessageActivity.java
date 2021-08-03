@@ -1,7 +1,8 @@
 package ml.pixreward.app;
 
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -17,28 +18,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import ml.pixreward.app.MainActivity;
 import ml.pixreward.app.MessageActivity;
 import ml.pixreward.app.R;
-import org.w3c.dom.NameList;
 
 public class MessageActivity extends AppCompatActivity {
 
     private EditText mEditText;
-    private ImageButton imageButton;
+    private ImageButton mImageButton;
     private ListView mListView;
 	private Message msg;
     private List<Message> MessageList;
@@ -72,10 +68,10 @@ public class MessageActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference("message");
         mEditText = (EditText) findViewById(R.id.message_in);
         mListView = (ListView) findViewById(R.id.message_view);
-        imageButton = (ImageButton) findViewById(R.id.button_send);
+        mImageButton = (ImageButton) findViewById(R.id.button_send);
         MessageList = new ArrayList<>();
 		
-        imageButton.setOnClickListener(new View.OnClickListener() {
+        mImageButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
 					String message = mEditText.getText().toString();
@@ -98,11 +94,8 @@ public class MessageActivity extends AppCompatActivity {
 				@Override
 				public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
 					msg = MessageList.get(i);
-
-					final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-					String uid = user.getUid();
 					if (uid.equals(msg.getUID())) {
-						// DialogDelete(nmlist.getUID(), nmlist.getNAME());
+						DialogDelete(msg.getUID(), msg.getNAME(), msg.getID());
 					} else {
 						Toast.makeText(MessageActivity.this, "Você não pode apagar esta mensagem", Toast.LENGTH_LONG).show();
 					}
@@ -137,8 +130,8 @@ public class MessageActivity extends AppCompatActivity {
 				}
 			});
     }
-	/*
-    private void DialogDelete(final String myId, String myName) {
+	
+    private void DialogDelete(String uid, String name, final String id) {
 
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -167,43 +160,17 @@ public class MessageActivity extends AppCompatActivity {
 				@Override
 				public void onClick(View view) {
 
-					deleteMessage(myId);
+					deleteMessage(id);
 					b.dismiss();
 				}
 			});
     }
-	*/
-	/*
+	
+	
     private boolean deleteMessage(String id) {
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("message").child(id);
-        databaseReference.removeValue();
+        mDatabase.child(id).removeValue();
         Toast.makeText(getApplicationContext(), "Mensagem apagada!", Toast.LENGTH_LONG).show();
 
         return true;
     }
-
-    private void alertDialogStart() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialog);
-        builder.setCancelable(false);
-        builder.setTitle("Aviso");
-        builder.setMessage(getString(R.string.avatar_warning));
-
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface arg0, int arg1) {
-					editText.setEnabled(false);
-					imageButton.setEnabled(false);
-					alerta.dismiss();
-				}
-			});
-
-        builder.setNegativeButton("Voltar", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface arg0, int arg1) {
-					startActivity(new Intent(MessageActivity.this, MainActivity.class));
-					finishAffinity();
-				}
-			});
-        alerta = builder.create();
-        alerta.show();
-    }
-	*/
 }

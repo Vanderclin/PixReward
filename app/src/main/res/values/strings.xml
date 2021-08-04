@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	
+	
+	<!-- Activity Name's -->
 	<string name="about">Sobre</string>
+	<string name="app_name">Pix Reward</string>
+	<string name="chat_plus">Chat Plus</string>
+	<string name="settings">Configurações</string>
+
+	
+	
     <string name="account_create">Criar conta</string>
-    <string name="app_name">Pix Reward</string>
+    
     <string name="auth_failed">Falha na autenticação, verifique seu e-mail ou senha</string>
 	<string name="award_code">Código Premiado</string>
     <string name="balance">Saldo</string>
@@ -30,13 +38,10 @@
     <string name="minimum_password">Senha muito curta, digite no mínimo 8 caracteres!</string>
 	<string name="minimum_value">R$ 20,00</string>
     <string name="password">Senha</string>
-    <string name="permission_read_phone_state_rationale">permissão read_phone_state fundamento lógico</string>
-    <string name="permissions_not_granted_read_phone_state">permissões não concedidas read_phone_state</string>
-    <string name="phone">(00) 00000-0000</string>
 	<string name="pix_key">Chave Pix</string>
     <string name="points">Pontos</string>
     <string name="points_value">0</string>
-	<string name="settings">Configurações</string>
+	
     <string name="signin">Entrar</string>
     <string name="signout">Sair</string>
 	<string name="signup">Inscrever-se</string>
@@ -55,4 +60,26 @@
 	
 	<string name="cancel">Cancelar</string>
 	<string name="rescue">Resgatar</string>
+	
+	<!-- Settings -->
+	<string name="database">Banco de dados</string>
+	<string name="offline_mode">Modo Offline</string>
+	<string name="offline_mode_keeps_data_saved_on_this_device">O modo offline mantém os dados salvo neste dispositivo</string>
+	
+	<!-- About -->
+    <string name="developer">Desenvolvedor</string>
+    <string name="version">Versão</string>
+    <string name="version_number_unknown">Desconhecido</string>
+    <string name="mit_licence">MIT License</string>
+    <string name="special_thanks">Agradecimentos</string>
+
+	<string name="developer_instagram_name" translatable="false">Vanderclin Rocha</string>
+	<string name="developer_instagram_name_tag">Instagram</string>
+	<string name="developer_instagram_url" translatable="false">https://www.instagram.com/vanderclin_rocha?r=nametag</string>
+
+	<string name="developer_github_name" translatable="false">Vanderclin Rocha</string>
+    <string name="developer_github_name_tag">Github</string>
+    <string name="developer_github_url" translatable="false">https://github.com/Vanderclin</string>
+	
+	
 </resources>

@@ -27,14 +27,14 @@ import java.util.Map;
 import ml.pixreward.app.R;
 
 public class SignUpActivity extends AppCompatActivity {
-    
+
     private EditText mEditFullName, mEditEmail, mEditPixKey, mEditPassword;
     private Button buttonSignUp;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
-	
-	private String fullname, email, pixkey, password;
 
+	private String fullname, email, pixkey, password;
+	private DatabaseReference mDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +42,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         //Get Firebase auth instance
         mAuth = FirebaseAuth.getInstance();
-        
+
         mEditFullName = (EditText) findViewById(R.id.fullname);
         mEditEmail = (EditText) findViewById(R.id.email);
 		mEditPixKey = (EditText) findViewById(R.id.pixkey);
@@ -52,12 +52,14 @@ public class SignUpActivity extends AppCompatActivity {
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-					
+
 					fullname = mEditFullName.getText().toString();
 					email = mEditEmail.getText().toString().toString();
 					pixkey = mEditPixKey.getText().toString();
 					password = mEditPassword.getText().toString().trim();
-					
+
+					mDatabase = FirebaseDatabase.getInstance().getReference("users");
+
 					if (TextUtils.isEmpty(fullname)) {
 						Toast.makeText(getApplicationContext(), getString(R.string.enter_full_name), Toast.LENGTH_SHORT).show();
 					}
@@ -106,30 +108,24 @@ public class SignUpActivity extends AppCompatActivity {
                                             }
                                         });
 
-
-                                    FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
                                     FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                                    DatabaseReference mRef = mDatabase.getReference().child("users").child(currentUser.getUid());
-
-                                    int points = 0;
                                     String device_manufacturer = Build.MANUFACTURER;
                                     String device_model = Build.MODEL;
 
 									String versionName;
 									try {
 										versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-									} catch (Exception e)
-									{
+									} catch (Exception e) {
 										versionName = getString(R.string.version_number_unknown);
 									}
                                     Map<String, Object> values = new HashMap<>();
-                                    values.put("current_points", points);
+                                    values.put("current_points", 0);
 									values.put("current_email", email);
 									values.put("current_pix", pixkey);
                                     values.put("current_device", device_manufacturer + " " + device_model);
                                     values.put("current_username", fullname);
 									values.put("current_app_version", versionName);
-                                    mRef.setValue(values);
+                                    mDatabase.child(currentUser.getUid()).setValue(values);
 
                                     new android.os.Handler().postDelayed(
                                         new Runnable() {
@@ -152,5 +148,5 @@ public class SignUpActivity extends AppCompatActivity {
         super.onResume();
         progressBar.setVisibility(View.GONE);
     }
-	
+
 }

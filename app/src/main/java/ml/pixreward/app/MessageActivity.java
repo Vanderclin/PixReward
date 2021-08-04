@@ -189,7 +189,7 @@ public class MessageActivity extends AppCompatActivity implements RewardedVideoA
         mRewardedVideoAd.loadAd(getString(R.string.id_video_two), new AdRequest.Builder().build());
 
     }
-
+	
     @Override
     protected void onStart() {
         super.onStart();

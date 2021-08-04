@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:paddingTop="@dimen/activity_vertical_margin"
+	android:paddingBottom="@dimen/activity_vertical_margin">
+
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:textAppearance="?android:attr/textAppearanceSmall"
+		android:gravity="center"
+		android:padding="6dp"
+		android:text="Código de convite"/>
+
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:gravity="center"
+		android:marqueeRepeatLimit="marquee_forever"
+		android:scrollHorizontally="true"
+		android:singleLine="true"
+		android:ellipsize="marquee"
+		android:id="@+id/referralCode"
+		android:padding="10dp"/>
+
+</LinearLayout>
+

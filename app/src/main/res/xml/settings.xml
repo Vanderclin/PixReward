@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+	android:persistent="false"
+    android:title="@string/settings">
+	<PreferenceCategory android:title="@string/database">
+		<SwitchPreference
+			android:key="offline"
+			android:summary="@string/offline_mode_keeps_data_saved_on_this_device"
+			android:title="@string/offline_mode"/>
+	</PreferenceCategory>
+</PreferenceScreen>

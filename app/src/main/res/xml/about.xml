@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:persistent="false"
+    android:title="@string/about">
+
+    <PreferenceCategory android:title="@string/about">
+
+        <Preference
+            android:key="version"
+            android:title="@string/version" />
+
+        <Preference
+            android:key="licences"
+            android:title="@string/mit_licence" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/developer">
+
+		<Preference
+            android:summary="@string/developer_instagram_name_tag"
+			android:title="@string/developer_instagram_name">
+
+			<intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/developer_instagram_url" />
+
+        </Preference>
+
+        <Preference
+            android:summary="@string/developer_github_name_tag"
+            android:title="@string/developer_github_name">
+
+			<intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/developer_github_url" />
+
+        </Preference>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

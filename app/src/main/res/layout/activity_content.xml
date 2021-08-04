@@ -169,11 +169,13 @@
 						android:src="@drawable/logo_freefire"
 						android:layout_width="match_parent"
 						android:layout_height="100dp"/>
-					
+
 					<TextView
 						android:layout_height="wrap_content"
 						android:layout_width="match_parent"
-						android:text="@string/minimum_value"/>
+						android:text="@string/minimum_value"
+						android:gravity="center"
+						android:padding="3dp"/>
 
 				</LinearLayout>
 
@@ -198,11 +200,13 @@
 						android:src="@drawable/logo_googleplay"
 						android:layout_width="match_parent"
 						android:layout_height="100dp"/>
-					
+
 					<TextView
 						android:layout_height="wrap_content"
 						android:layout_width="match_parent"
-						android:text="@string/minimum_value"/>
+						android:text="@string/minimum_value"
+						android:gravity="center"
+						android:padding="3dp"/>
 
 				</LinearLayout>
 
@@ -234,11 +238,13 @@
 						android:src="@drawable/logo_netflix"
 						android:layout_width="match_parent"
 						android:layout_height="100dp"/>
-					
+
 					<TextView
 						android:layout_height="wrap_content"
 						android:layout_width="match_parent"
-						android:text="@string/minimum_value"/>
+						android:text="@string/minimum_value"
+						android:gravity="center"
+						android:padding="3dp"/>
 
 				</LinearLayout>
 
@@ -263,11 +269,13 @@
 						android:src="@drawable/logo_pix"
 						android:layout_width="match_parent"
 						android:layout_height="100dp"/>
-					
+
 					<TextView
 						android:layout_height="wrap_content"
 						android:layout_width="match_parent"
-						android:text="@string/minimum_value"/>
+						android:text="@string/minimum_value"
+						android:gravity="center"
+						android:padding="3dp"/>
 
 				</LinearLayout>
 

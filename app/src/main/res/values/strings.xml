@@ -28,6 +28,7 @@
     <string name="id_video_test">ca-app-pub-3940256099942544/5224354917</string>
 	<string name="message_deleted">Mensagem apagada</string>
     <string name="minimum_password">Senha muito curta, digite no mínimo 8 caracteres!</string>
+	<string name="minimum_value">R$ 20,00</string>
     <string name="password">Senha</string>
     <string name="permission_read_phone_state_rationale">permissão read_phone_state fundamento lógico</string>
     <string name="permissions_not_granted_read_phone_state">permissões não concedidas read_phone_state</string>

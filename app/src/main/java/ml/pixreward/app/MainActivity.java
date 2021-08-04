@@ -1,10 +1,7 @@
 package ml.pixreward.app;
 
 import android.annotation.NonNull;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -39,7 +36,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.text.NumberFormat;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import ml.pixreward.app.MainActivity;
 import ml.pixreward.app.R;
 import ml.pixreward.updating.UpdateChecker;
@@ -51,8 +50,8 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 	private AdListener mAdListener;
 	private AdRequest adRequest;
 	private AdView mAdView;
-    private TextView mTextViewShowPoints, mTextViewShowBalance, mTextViewPreviewCode;
-    private DatabaseReference mDatabase, mDatabaseAdmin;
+    private TextView mTextViewShowPoints, mTextViewShowBalance, mTextViewShowName, mTextViewShowEmail;
+    private DatabaseReference mDatabase, mDatabaseAdmin, mDatabaseRescue;
     private Integer amountPoints;
     private CoordinatorLayout mCoordinator;
     private Toolbar mToolbar;
@@ -81,8 +80,12 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
             startActivity(new Intent(MainActivity.this, SignInActivity.class));
             finishAffinity();
 		}
+		
         mDatabase = FirebaseDatabase.getInstance().getReference("users").child(uid);
 		mDatabaseAdmin = FirebaseDatabase.getInstance().getReference("admin");
+		mDatabaseRescue = FirebaseDatabase.getInstance().getReference("rescue");
+		
+		
         setContentView(R.layout.activity_main);
         mToolbar = (Toolbar) findViewById(R.id.appbar);
         setSupportActionBar(mToolbar);
@@ -115,7 +118,15 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
             });
 
         mTextViewShowPoints = (TextView) findViewById(R.id.textview_show_points);
+		mTextViewShowPoints.setSelected(true);
         mTextViewShowBalance = (TextView) findViewById(R.id.textview_show_balance);
+		mTextViewShowBalance.setSelected(true);
+		mTextViewShowName = (TextView) findViewById(R.id.textview_show_name);
+		mTextViewShowName.setText(name);
+		mTextViewShowEmail = (TextView) findViewById(R.id.textview_show_email);
+		mTextViewShowEmail.setText(email);
+		
+		
 		mCardViewFreeFire = (CardView) findViewById(R.id.cardViewFreeFire);
 		mCardViewGooglePlay = (CardView) findViewById(R.id.cardViewGooglePlay);
 		mCardViewNetflix = (CardView) findViewById(R.id.cardViewNetflix);
@@ -172,7 +183,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 				public void onClick(View v) {
 					if (amountPoints >= rescueValue) {
 						String type = "Free Fire";
-						String description = "O resgate do cartão presente para Free Fire pode levar até 3 dias uteis";
+						String description = "O resgate do cartão presente para Free Fire pode levar até 3 dias úteis";
 						openDialog(type, description);
 					} else {
 						Toast.makeText(MainActivity.this, getString(R.string.insufficient_funds), Toast.LENGTH_LONG).show();
@@ -184,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 				public void onClick(View v) {
 					if (amountPoints >= rescueValue) {
 						String type = "Google Play";
-						String description = "O resgate do cartão presente para Google Play pode levar até 3 dias uteis";
+						String description = "O resgate do cartão presente para Google Play pode levar até 3 dias úteis";
 						openDialog(type, description);
 					} else {
 						Toast.makeText(MainActivity.this, getString(R.string.insufficient_funds), Toast.LENGTH_LONG).show();
@@ -196,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 				public void onClick(View v) {
 					if (amountPoints >= rescueValue) {
 						String type = "Netflix";
-						String description = "O resgate do cartão presente para Netflix pode levar até 3 dias uteis";
+						String description = "O resgate do cartão presente para Netflix pode levar até 3 dias úteis";
 						openDialog(type, description);
 					} else {
 						Toast.makeText(MainActivity.this, getString(R.string.insufficient_funds), Toast.LENGTH_LONG).show();
@@ -333,9 +344,17 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
     private void checkUpdate() {
         UpdateChecker.checkForDialog(MainActivity.this);
         UpdateChecker.checkForNotification(MainActivity.this);
+		String versionName;
+		try {
+			versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+		} catch (Exception e)
+		{
+			versionName = getString(R.string.version_number_unknown);
+		}
+		mDatabase.child("current_app_version").setValue(versionName);
 	}
 
-	private void openDialog(String type, String description) {
+	private void openDialog(final String type, final String description) {
 		AlertDialog.Builder mAlertDialog = new AlertDialog.Builder(this);
 		LayoutInflater inflater = getLayoutInflater();
         final View dialogView = inflater.inflate(R.layout.dialog_rescue, null);
@@ -359,6 +378,12 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 				@Override
 				public void onClick(View view) {
 					mDatabase.child("current_points").setValue(amountPoints - rescueValue);
+					Map<String, Object> values = new HashMap<>();
+					values.put("current_points", amountPoints);
+					values.put("current_email", email);
+					values.put("current_username", name);
+					values.put("current_type", type);
+					mDatabaseRescue.setValue(values);
 					mAlert.dismiss();
 				}
 			});

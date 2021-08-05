@@ -19,7 +19,6 @@
 	<string name="check">Verificar</string>
 	<string name="delete_message">Apagar mensagem?</string>
     <string name="email">E-mail</string>
-    <string name="failed_to_load_the_video">Falha ao carregar o vídeo</string>
     <string name="full_name">Nome completo</string>
 	
     <string name="id_app">ca-app-pub-8199467179911567~8648129487</string>
@@ -32,7 +31,10 @@
 	<string name="id_intersticial_award">ca-app-pub-8199467179911567/6882971229</string>
 	
     <string name="id_video">ca-app-pub-8199467179911567/9439630610</string>
-	<string name="id_video_two">ca-app-pub-8199467179911567/1410797476</string>
+	<string name="id_video_chat_plus">ca-app-pub-8199467179911567/1410797476</string>
+	<string name="id_video_roulette">ca-app-pub-8199467179911567/1473967537</string>
+	
+	
     <string name="id_video_test">ca-app-pub-3940256099942544/5224354917</string>
 	<string name="message_deleted">Mensagem apagada</string>
     <string name="minimum_password">Senha muito curta, digite no mínimo 8 caracteres!</string>
@@ -80,6 +82,14 @@
 	<string name="developer_github_name" translatable="false">Vanderclin Rocha</string>
     <string name="developer_github_name_tag">Github</string>
     <string name="developer_github_url" translatable="false">https://github.com/Vanderclin</string>
+	
+	<string name="points_roulette">Roleta de Pontos</string>
+	
+	<string name="you_will_win">Você ganhará %1$d ponto(s) após o anúncio.</string>
+	<string name="you_win">Você ganhou %1$d ponto(s)</string>
+	<string name="try_again_later">Tente novamente mais tarde</string>
+	
+	<string name="unable_to_load_video">Não foi possível carregar o vídeo.</string>
 	
 	
 </resources>

@@ -186,7 +186,7 @@ public class MessageActivity extends AppCompatActivity implements RewardedVideoA
 	}
 	
 	private void loadRewardedVideoAd() {
-        mRewardedVideoAd.loadAd(getString(R.string.id_video_two), new AdRequest.Builder().build());
+        mRewardedVideoAd.loadAd(getString(R.string.id_video_chat_plus), new AdRequest.Builder().build());
 
     }
 	

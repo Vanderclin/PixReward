@@ -2,8 +2,8 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="ml.pixreward.app"
-    android:versionCode="12"
-    android:versionName="1.2">
+    android:versionCode="15"
+    android:versionName="1.5">
 
     <!-- Acesso completo à rede -->
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -31,7 +31,6 @@
         android:xlargeScreens="true"
         android:normalScreens="true"
         android:anyDensity="true">
-
     </supports-screens>
 
     <application
@@ -108,6 +107,16 @@
             android:label="@string/settings">
 
         </activity>
+		
+		<activity
+			android:name=".RouletteActivity"
+			android:hardwareAccelerated="true"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/AppTheme"
+            android:label="@string/points_roulette">
+			
+		</activity>
 
     </application>
 

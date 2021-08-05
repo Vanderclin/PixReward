@@ -64,8 +64,9 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 	private boolean emailVerified;
     private FloatingActionButton mFloatingChatPlus, mFloatingAdView;
 	private Integer rescueValue, amountPoints;
-
 	private CardView mCardViewFreeFire, mCardViewGooglePlay, mCardViewNetflix, mCardViewPix;
+	private Button mButtonPointsRoulette;
+	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 		mCardViewGooglePlay = (CardView) findViewById(R.id.cardViewGooglePlay);
 		mCardViewNetflix = (CardView) findViewById(R.id.cardViewNetflix);
 		mCardViewPix = (CardView) findViewById(R.id.cardViewPix);
+		mButtonPointsRoulette = (Button) findViewById(R.id.pointsRoulette);
 
 		registerForContextMenu(mCoordinator);
         mTextViewShowPoints.setSelected(true);
@@ -219,6 +221,13 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 					}
 				}
 			});
+			
+		mButtonPointsRoulette.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					startActivity(new Intent(MainActivity.this, RouletteActivity.class));
+				}
+			});
 
 
     }
@@ -284,6 +293,9 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 
     @Override
     public void onRewardedVideoAdFailedToLoad(int i) {
+		Snackbar snackbar = Snackbar.make(mCoordinator, getString(R.string.try_again_later), Snackbar.LENGTH_LONG);
+		snackbar.setDuration(6000);
+		snackbar.show();
 		startInterstitial();
 
     }

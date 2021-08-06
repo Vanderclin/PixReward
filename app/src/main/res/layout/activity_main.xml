@@ -18,13 +18,13 @@
 			android:minHeight="?attr/actionBarSize"
 			app:contentScrim="?attr/colorPrimary"
 			app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-			<ImageView
-				android:id="@+id/img_collapse"
+			
+			<ml.pixreward.image.SmartImageView
+				android:id="@+id/displayThumbnail"
 				android:layout_width="match_parent"
 				android:layout_height="250dp"
 				android:scaleType="centerCrop"
-				app:layout_collapseMode="parallax" />
+				app:layout_collapseMode="parallax"/>
 
 
 			<android.support.v7.widget.Toolbar

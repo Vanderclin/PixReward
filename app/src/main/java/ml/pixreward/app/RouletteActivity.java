@@ -137,8 +137,13 @@ public class RouletteActivity extends AppCompatActivity implements Animation.Ani
     public void onAnimationEnd(Animation animation) {
 		rouletteResult = ((int)(((double)this.intNumber) - Math.floor(((double)this.lngDegrees) / (360.0d / ((double)this.intNumber)))));
 		setRouletteResult(rouletteResult);
-        mButtonRotation = true;
-        mButtonRouletteStart.setEnabled(true);
+		if (mRewardedVideoAd.isLoaded()) {
+			mButtonRotation = false;
+			mButtonRouletteStart.setEnabled(false);
+        } else {
+			mButtonRotation = true;
+			mButtonRouletteStart.setEnabled(true);
+		}
     }
 
     @Override
@@ -178,7 +183,6 @@ public class RouletteActivity extends AppCompatActivity implements Animation.Ani
 	@Override
 	public void onRewardedVideoAdLoaded() {
 		if (mRewardedVideoAd.isLoaded()) {
-			mButtonRotation = false;
 			Snackbar snackbar = Snackbar.make(mCoordinator, getString(R.string.you_will_win, rouletteResult), Snackbar.LENGTH_LONG);
 			snackbar.setDuration(snackbarDuration);
 			snackbar.show();
@@ -205,6 +209,7 @@ public class RouletteActivity extends AppCompatActivity implements Animation.Ani
 	@Override
 	public void onRewardedVideoAdClosed() {
 		mButtonRotation = true;
+		mButtonRouletteStart.setEnabled(true);
 		Snackbar snackbar = Snackbar.make(mCoordinator, getString(R.string.you_win, rouletteResult), Snackbar.LENGTH_LONG);
 		snackbar.setDuration(snackbarDuration);
 		snackbar.show();

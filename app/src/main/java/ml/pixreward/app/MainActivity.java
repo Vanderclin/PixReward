@@ -46,6 +46,7 @@ import ml.pixreward.app.MainActivity;
 import ml.pixreward.app.R;
 import ml.pixreward.updating.UpdateChecker;
 import android.widget.EditText;
+import ml.pixreward.image.SmartImageView;
 
 public class MainActivity extends AppCompatActivity implements RewardedVideoAdListener {
 
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 	private Integer rescueValue, amountPoints;
 	private CardView mCardViewFreeFire, mCardViewGooglePlay, mCardViewNetflix, mCardViewPix;
 	private Button mButtonPointsRoulette;
+	private SmartImageView mSmartImageView;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
         mInterstitialAd.loadAd(adRequest);
 		// Get ID's
 		mCoordinator = (CoordinatorLayout) findViewById(R.id.root_coordinator);
+		mSmartImageView = (SmartImageView) findViewById(R.id.displayThumbnail);
 		mFloatingAdView = (FloatingActionButton) findViewById(R.id.fab_ad_view);
 		mFloatingChatPlus = (FloatingActionButton) findViewById(R.id.fab_chat_plus);
 		mTextViewShowPoints = (TextView) findViewById(R.id.textview_show_points);
@@ -126,6 +129,10 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     rescueValue = snapshot.child("rescue_value").getValue(Integer.class);
+					String photo_url = snapshot.child("photo_url").getValue(String.class);
+					mSmartImageView.setImageUrl(photo_url);
+					
+					
                 }
 
                 @Override

@@ -74,14 +74,10 @@
     <string name="version_number_unknown">Desconhecido</string>
     <string name="mit_licence">MIT License</string>
     <string name="special_thanks">Agradecimentos</string>
-
-	<string name="developer_instagram_name" translatable="false">Vanderclin Rocha</string>
-	<string name="developer_instagram_name_tag">Instagram</string>
-	<string name="developer_instagram_url" translatable="false">https://www.instagram.com/vanderclin_rocha?r=nametag</string>
-
-	<string name="developer_github_name" translatable="false">Vanderclin Rocha</string>
-    <string name="developer_github_name_tag">Github</string>
-    <string name="developer_github_url" translatable="false">https://github.com/Vanderclin</string>
+	
+	<string name="developer_webpage_name" translatable="false">Pix Reward</string>
+    <string name="developer_webpage_name_tag">Página oficial na Web</string>
+    <string name="developer_webpage_url" translatable="false">https://github.com/Vanderclin</string>
 	
 	<string name="points_roulette">Roleta de Pontos</string>
 	
@@ -90,6 +86,6 @@
 	<string name="try_again_later">Tente novamente mais tarde</string>
 	
 	<string name="unable_to_load_video">Não foi possível carregar o vídeo.</string>
-	
+	<string name="rotate">Girar</string>
 	
 </resources>

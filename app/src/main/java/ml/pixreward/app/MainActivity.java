@@ -252,9 +252,6 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
             case R.id.menu_about:
 				startActivity(new Intent(MainActivity.this, AboutActivity.class));
 				return true;
-			case R.id.menu_settings:
-				startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-                return true;
 			case R.id.menu_signout:
 				mAuth.getInstance().signOut();
 				startActivity(new Intent(MainActivity.this, SignInActivity.class));

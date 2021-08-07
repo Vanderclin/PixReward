@@ -96,7 +96,6 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:text="@string/points_roulette"
-		android:layout_marginTop="@dimen/activity_vertical_margin"
 		style="@style/ButtonTheme"
 		android:id="@+id/pointsRoulette"/>
 
@@ -104,7 +103,7 @@
 		android:orientation="vertical"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="@dimen/activity_vertical_margin">
+		android:layout_marginBottom="40dp">
 
 		<LinearLayout
 			android:orientation="horizontal"

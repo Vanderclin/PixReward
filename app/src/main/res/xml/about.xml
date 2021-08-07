@@ -17,23 +17,13 @@
 
     <PreferenceCategory android:title="@string/developer">
 
-		<Preference
-            android:summary="@string/developer_instagram_name_tag"
-			android:title="@string/developer_instagram_name">
-
-			<intent
-                android:action="android.intent.action.VIEW"
-                android:data="@string/developer_instagram_url" />
-
-        </Preference>
-
         <Preference
-            android:summary="@string/developer_github_name_tag"
-            android:title="@string/developer_github_name">
+            android:summary="@string/developer_webpage_name_tag"
+            android:title="@string/developer_webpage_name">
 
 			<intent
                 android:action="android.intent.action.VIEW"
-                android:data="@string/developer_github_url" />
+                android:data="@string/developer_webpage_url" />
 
         </Preference>
 

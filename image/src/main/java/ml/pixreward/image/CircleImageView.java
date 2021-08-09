@@ -1,19 +1,37 @@
 package ml.pixreward.image;
 
-import android.annotation.*;
-import android.content.*;
-import android.content.res.*;
-import android.graphics.*;
-import android.graphics.drawable.*;
-import android.net.*;
-import android.os.*;
-import android.support.annotation.*;
-import android.util.*;
-import android.view.*;
-import android.widget.*;
-import java.util.concurrent.*;
-
 import android.annotation.NonNull;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.Matrix;
+import android.graphics.Outline;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.ColorInt;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.RequiresApi;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewOutlineProvider;
+import android.widget.ImageView;
+import com.pixreward.image.R;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class CircleImageView extends ImageView
 	{

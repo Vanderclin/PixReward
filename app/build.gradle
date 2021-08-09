@@ -16,8 +16,8 @@ android {
             keyPassword '499119'
         }
     }
-    compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId "ml.pixreward.app"

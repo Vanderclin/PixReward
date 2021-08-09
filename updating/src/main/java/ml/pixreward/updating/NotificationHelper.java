@@ -68,7 +68,7 @@ public class NotificationHelper extends ContextWrapper {
                 .setSmallIcon(getSmallIcon())
                 .setLargeIcon(getLargeIcon())
                 .setAutoCancel(true)
-                .setPriority(NotificationCompat.PRIORITY_LOW);
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
     }
 

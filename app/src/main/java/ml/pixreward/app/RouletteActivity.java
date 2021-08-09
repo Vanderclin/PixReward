@@ -54,7 +54,7 @@ public class RouletteActivity extends AppCompatActivity implements Animation.Ani
 	private DatabaseReference mDatabase;
 	private Integer amountPoints = 0;
 	private TextView mTextViewRoulettePoints, mTextViewRouletteBalance;
-	private RewardedVideoAd mRewardedVideoAd;
+	private RewardedVideoAd mRewardedVideoRoulette;
 	private CoordinatorLayout mCoordinator;
 	
 	private AdView mAdView;
@@ -83,8 +83,8 @@ public class RouletteActivity extends AppCompatActivity implements Animation.Ani
 		
 
 		mDatabase = FirebaseDatabase.getInstance().getReference("users").child(uid);
-		mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
-        mRewardedVideoAd.setRewardedVideoAdListener(this);
+		mRewardedVideoRoulette = MobileAds.getRewardedVideoAdInstance(this);
+        mRewardedVideoRoulette.setRewardedVideoAdListener(this);
 
 		MobileAds.initialize(this, getString(R.string.id_app));
         mAdView = (AdView) findViewById(R.id.ad_view);
@@ -167,7 +167,7 @@ public class RouletteActivity extends AppCompatActivity implements Animation.Ani
     public void onAnimationEnd(Animation animation) {
 		rouletteResult = ((int)(((double)this.intNumber) - Math.floor(((double)this.lngDegrees) / (360.0d / ((double)this.intNumber)))));
 		setRouletteResult(rouletteResult);
-		if (mRewardedVideoAd.isLoaded()) {
+		if (mRewardedVideoRoulette.isLoaded()) {
 			mButtonRotation = false;
 			mFloatingRouletteStart.setEnabled(false);
         } else {
@@ -184,35 +184,35 @@ public class RouletteActivity extends AppCompatActivity implements Animation.Ani
 	private void setRouletteResult(int result) {
         switch (result) {
             case 1:
-				loadRewardedVideoAd();
+				rouletteLoadVideo();
                 return;
             case 2:
-                loadRewardedVideoAd();
+                rouletteLoadVideo();
                 return;
             case 3:
-                loadRewardedVideoAd();
+                rouletteLoadVideo();
                 return;
             case 4:
-                loadRewardedVideoAd();
+                rouletteLoadVideo();
                 return;
             case 5:
-                loadRewardedVideoAd();
+                rouletteLoadVideo();
                 return;
             case 6:
-                loadRewardedVideoAd();
+                rouletteLoadVideo();
                 return;
             case 7:
-                loadRewardedVideoAd();
+                rouletteLoadVideo();
                 return;
             case 8:
-                loadRewardedVideoAd();
+                rouletteLoadVideo();
                 return;
         }
     }
 
 	@Override
 	public void onRewardedVideoAdLoaded() {
-		if (mRewardedVideoAd.isLoaded()) {
+		if (mRewardedVideoRoulette.isLoaded()) {
 			Snackbar snackbar = Snackbar.make(mCoordinator, getString(R.string.you_will_win, rouletteResult), Snackbar.LENGTH_LONG);
 			snackbar.setDuration(snackbarDuration);
 			snackbar.show();
@@ -222,7 +222,7 @@ public class RouletteActivity extends AppCompatActivity implements Animation.Ani
 					@Override
 					public void run() {
 						//Do something after 7000ms
-						mRewardedVideoAd.show();
+						mRewardedVideoRoulette.show();
 					}
 				}, 7000);
         }
@@ -264,7 +264,7 @@ public class RouletteActivity extends AppCompatActivity implements Animation.Ani
 
 	@Override
     public void onPause() {
-		mRewardedVideoAd.pause(this);
+		mRewardedVideoRoulette.pause(this);
         if (mAdView != null) {
             mAdView.pause();
         }
@@ -274,7 +274,7 @@ public class RouletteActivity extends AppCompatActivity implements Animation.Ani
     /** Called when returning to the activity */
     @Override
     public void onResume() {
-		mRewardedVideoAd.resume(this);
+		mRewardedVideoRoulette.resume(this);
         super.onResume();
         if (mAdView != null) {
             mAdView.resume();
@@ -284,7 +284,7 @@ public class RouletteActivity extends AppCompatActivity implements Animation.Ani
     /** Called before the activity is destroyed */
     @Override
     public void onDestroy() {
-		mRewardedVideoAd.destroy(this);
+		mRewardedVideoRoulette.destroy(this);
         if (mAdView != null) {
             mAdView.destroy();
         }
@@ -293,12 +293,7 @@ public class RouletteActivity extends AppCompatActivity implements Animation.Ani
 
 	
 
-	private void loadRewardedVideoAd() {
-        mRewardedVideoAd.loadAd(getString(R.string.id_video_roulette), new AdRequest.Builder().build());
+	private void rouletteLoadVideo() {
+        mRewardedVideoRoulette.loadAd(getString(R.string.id_video_roulette), new AdRequest.Builder().build());
     }
-	
-	
-	
-	
-
 }

@@ -54,11 +54,10 @@ public class MessageActivity extends AppCompatActivity implements RewardedVideoA
 	
 	private MessageAdapter mAdapter;
 	
-	private RewardedVideoAd mRewardedVideoAd;
+	private RewardedVideoAd mRewardedVideoMessage;
 	private InterstitialAd mInterstitialAd;
 	private AdListener mAdListener;
 	private AdRequest adRequest;
-	private AdView mAdView;
 	
 	private Integer amountPoints;
 	
@@ -78,8 +77,8 @@ public class MessageActivity extends AppCompatActivity implements RewardedVideoA
             startActivity(new Intent(MessageActivity.this, SignInActivity.class));
             finishAffinity();
 		}
-		mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
-        mRewardedVideoAd.setRewardedVideoAdListener(MessageActivity.this);
+		mRewardedVideoMessage = MobileAds.getRewardedVideoAdInstance(this);
+        mRewardedVideoMessage.setRewardedVideoAdListener(MessageActivity.this);
 		MobileAds.initialize(this, getString(R.string.id_app));
 		adRequest = new AdRequest.Builder()
 			.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
@@ -146,8 +145,8 @@ public class MessageActivity extends AppCompatActivity implements RewardedVideoA
 	
 	@Override
 	public void onRewardedVideoAdLoaded() {
-		if (mRewardedVideoAd.isLoaded()) {
-            mRewardedVideoAd.show();
+		if (mRewardedVideoMessage.isLoaded()) {
+            mRewardedVideoMessage.show();
         }
 	}
 
@@ -186,7 +185,7 @@ public class MessageActivity extends AppCompatActivity implements RewardedVideoA
 	}
 	
 	private void loadRewardedVideoAd() {
-        mRewardedVideoAd.loadAd(getString(R.string.id_video_chat_plus), new AdRequest.Builder().build());
+        mRewardedVideoMessage.loadAd(getString(R.string.id_video_chat_plus), new AdRequest.Builder().build());
 
     }
 	

@@ -50,7 +50,7 @@ import ml.pixreward.image.SmartImageView;
 
 public class MainActivity extends AppCompatActivity implements RewardedVideoAdListener {
 
-	private RewardedVideoAd mRewardedVideoAd;
+	private RewardedVideoAd mRewardedVideoHome;
 	private InterstitialAd mInterstitialAd;
 	private AdListener mAdListener;
 	private AdRequest adRequest;
@@ -95,8 +95,8 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 		// Check Update App
         checkUpdate();
 		// Admob
-		mRewardedVideoAd = MobileAds.getRewardedVideoAdInstance(this);
-        mRewardedVideoAd.setRewardedVideoAdListener(this);
+		mRewardedVideoHome = MobileAds.getRewardedVideoAdInstance(this);
+        mRewardedVideoHome.setRewardedVideoAdListener(this);
 		MobileAds.initialize(this, getString(R.string.id_app));
         mAdView = (AdView) findViewById(R.id.ad_view);
         AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR).build();
@@ -264,8 +264,8 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 
     @Override
     public void onRewardedVideoAdLoaded() {
-        if (mRewardedVideoAd.isLoaded()) {
-            mRewardedVideoAd.show();
+        if (mRewardedVideoHome.isLoaded()) {
+            mRewardedVideoHome.show();
         }
 
     }
@@ -305,7 +305,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
     }
 
 	private void loadRewardedVideoAd() {
-        mRewardedVideoAd.loadAd(getString(R.string.id_video), new AdRequest.Builder().build());
+        mRewardedVideoHome.loadAd(getString(R.string.id_video_home), new AdRequest.Builder().build());
 
     }
 
@@ -366,7 +366,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 	/** Called when leaving the activity */
     @Override
     public void onPause() {
-		mRewardedVideoAd.pause(this);
+		mRewardedVideoHome.pause(this);
         if (mAdView != null) {
             mAdView.pause();
         }
@@ -376,7 +376,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
     /** Called when returning to the activity */
     @Override
     public void onResume() {
-		mRewardedVideoAd.resume(this);
+		mRewardedVideoHome.resume(this);
         super.onResume();
         if (mAdView != null) {
             mAdView.resume();
@@ -386,7 +386,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
     /** Called before the activity is destroyed */
     @Override
     public void onDestroy() {
-		mRewardedVideoAd.destroy(this);
+		mRewardedVideoHome.destroy(this);
         if (mAdView != null) {
             mAdView.destroy();
         }

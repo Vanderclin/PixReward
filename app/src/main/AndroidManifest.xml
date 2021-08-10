@@ -2,8 +2,8 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="ml.pixreward.app"
-    android:versionCode="19"
-    android:versionName="1.9">
+    android:versionCode="20"
+    android:versionName="2.0">
 
     <!-- Acesso completo à rede -->
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -110,6 +110,7 @@
 		
 		<activity
 			android:name=".RouletteActivity"
+			android:noHistory="true"
 			android:hardwareAccelerated="true"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustResize"

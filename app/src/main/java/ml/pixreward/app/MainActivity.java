@@ -166,6 +166,8 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 		mFloatingChatPlus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+					finish();
+					overridePendingTransition(R.anim.fadeout, R.anim.fadein);
 					startActivity(new Intent(MainActivity.this, MessageActivity.class));
                 }
             });
@@ -232,6 +234,8 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 		mButtonPointsRoulette.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
+					finish();
+					overridePendingTransition(R.anim.fadeout, R.anim.fadein);
 					startActivity(new Intent(MainActivity.this, RouletteActivity.class));
 				}
 			});
@@ -254,8 +258,9 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 				return true;
 			case R.id.menu_signout:
 				mAuth.getInstance().signOut();
-				startActivity(new Intent(MainActivity.this, SignInActivity.class));
 				finish();
+				overridePendingTransition(R.anim.fadeout, R.anim.fadein);
+				startActivity(new Intent(MainActivity.this, SignInActivity.class));
 				return true;
         }
         return super.onOptionsItemSelected(item);

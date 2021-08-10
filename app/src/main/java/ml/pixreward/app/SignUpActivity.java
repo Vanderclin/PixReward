@@ -130,8 +130,9 @@ public class SignUpActivity extends AppCompatActivity {
                                     new android.os.Handler().postDelayed(
                                         new Runnable() {
                                             public void run() {
-                                                startActivity(new Intent(SignUpActivity.this, MainActivity.class));
                                                 finish();
+												overridePendingTransition(R.anim.fadeout, R.anim.fadein);
+												startActivity(new Intent(SignUpActivity.this, MainActivity.class));
                                             }
                                         },
                                         1500);

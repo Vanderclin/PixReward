@@ -78,9 +78,9 @@ public class SignInActivity extends AppCompatActivity {
                                         Toast.makeText(SignInActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
+									finish();
+									overridePendingTransition(R.anim.fadeout, R.anim.fadein);
+									startActivity(new Intent(SignInActivity.this, MainActivity.class));
                                 }
                             }
                         });

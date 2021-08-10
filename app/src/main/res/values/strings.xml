@@ -88,4 +88,6 @@
 	<string name="unable_to_load_video">Não foi possível carregar o vídeo.</string>
 	<string name="rotate">Girar</string>
 	
+	<string name="press_again_to_go_back">Pressione novamente para voltar</string>
+	
 </resources>

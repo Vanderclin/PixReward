@@ -258,4 +258,12 @@ public class MessageActivity extends AppCompatActivity implements RewardedVideoA
 
         return true;
     }
+	
+	@Override
+	public void onBackPressed() {
+		finish();
+		overridePendingTransition(R.anim.fadeout, R.anim.fadein);
+		startActivity(new Intent(MessageActivity.this, MainActivity.class));
+		return;
+	}
 }

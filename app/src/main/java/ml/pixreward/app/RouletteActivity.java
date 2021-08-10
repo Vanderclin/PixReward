@@ -38,6 +38,7 @@ import java.util.Random;
 import ml.pixreward.app.R;
 import ml.pixreward.app.RouletteActivity;
 import android.support.design.widget.FloatingActionButton;
+import android.widget.Toast;
 
 public class RouletteActivity extends AppCompatActivity implements Animation.AnimationListener, RewardedVideoAdListener {
 
@@ -56,15 +57,18 @@ public class RouletteActivity extends AppCompatActivity implements Animation.Ani
 	private TextView mTextViewRoulettePoints, mTextViewRouletteBalance;
 	private RewardedVideoAd mRewardedVideoRoulette;
 	private CoordinatorLayout mCoordinator;
-	
+
 	private AdView mAdView;
 	private int snackbarDuration = 5000;
-	
-	private String urlFile = "file:///android_asset/roulette_game.mp3";
 
+	private String urlFile = "file:///android_asset/roulette_game.mp3";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_roulette);
 		mAuth = FirebaseAuth.getInstance();
@@ -79,8 +83,8 @@ public class RouletteActivity extends AppCompatActivity implements Animation.Ani
             startActivity(new Intent(RouletteActivity.this, SignInActivity.class));
             finishAffinity();
 		}
-		
-		
+
+
 
 		mDatabase = FirebaseDatabase.getInstance().getReference("users").child(uid);
 		mRewardedVideoRoulette = MobileAds.getRewardedVideoAdInstance(this);
@@ -129,7 +133,7 @@ public class RouletteActivity extends AppCompatActivity implements Animation.Ani
                     String balance = NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format((doubleValue / 1000));
 					mTextViewRoulettePoints.setText(points);
 					mTextViewRouletteBalance.setText(balance);
-					
+
                 }
 
                 @Override
@@ -156,11 +160,11 @@ public class RouletteActivity extends AppCompatActivity implements Animation.Ani
 			mediaPlayer.prepare();
 		} catch (IOException e) {} catch (IllegalStateException e) {}
 		mediaPlayer.start();
-		
-		
-		
-		
-		
+
+
+
+
+
     }
 
     @Override
@@ -216,7 +220,7 @@ public class RouletteActivity extends AppCompatActivity implements Animation.Ani
 			Snackbar snackbar = Snackbar.make(mCoordinator, getString(R.string.you_will_win, rouletteResult), Snackbar.LENGTH_LONG);
 			snackbar.setDuration(snackbarDuration);
 			snackbar.show();
-			
+
 			final Handler handler = new Handler(Looper.getMainLooper());
 			handler.postDelayed(new Runnable() {
 					@Override
@@ -253,7 +257,7 @@ public class RouletteActivity extends AppCompatActivity implements Animation.Ani
 	@Override
 	public void onRewardedVideoAdLeftApplication() {
 	}
-	
+
 	@Override
 	public void onRewardedVideoAdFailedToLoad(int p1) {
 		mButtonRotation = true;
@@ -291,9 +295,29 @@ public class RouletteActivity extends AppCompatActivity implements Animation.Ani
         super.onDestroy();
     }
 
-	
+
 
 	private void rouletteLoadVideo() {
         mRewardedVideoRoulette.loadAd(getString(R.string.id_video_roulette), new AdRequest.Builder().build());
     }
+
+
+	@Override
+	public boolean onSupportNavigateUp() {
+		finish();
+		overridePendingTransition(R.anim.fadeout, R.anim.fadein);
+		startActivity(new Intent(RouletteActivity.this, MainActivity.class));
+		return true;
+	}
+
+	@Override
+	public void onBackPressed() {
+		finish();
+		overridePendingTransition(R.anim.fadeout, R.anim.fadein);
+		startActivity(new Intent(RouletteActivity.this, MainActivity.class));
+		return;
+	} 
+
+
+
 }

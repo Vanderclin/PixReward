@@ -2,8 +2,8 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="ml.pixreward.app"
-    android:versionCode="21"
-    android:versionName="2.1">
+    android:versionCode="22"
+    android:versionName="2.2">
 
     <!-- Acesso completo à rede -->
     <uses-permission android:name="android.permission.INTERNET"/>

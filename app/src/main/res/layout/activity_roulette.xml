@@ -52,7 +52,6 @@
 						android:gravity="center"
 						android:padding="10dp"
 						android:id="@+id/displayPoints"/>
-					
 
 				</LinearLayout>
 
@@ -102,7 +101,7 @@
 		<LinearLayout
 			android:orientation="vertical"
 			android:layout_width="match_parent"
-			android:layout_height="350dp"
+			android:layout_height="330dp"
 			android:layout_marginTop="10dp">
 
 			<FrameLayout
@@ -124,18 +123,29 @@
 					android:layout_width="match_parent"
 					android:layout_height="match_parent"
 					android:src="@drawable/roulette_indicator"/>
-				
+
 				<android.support.design.widget.FloatingActionButton
 					android:id="@+id/buttonRouletteStart"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_gravity="center"
 					android:layout_margin="16dp"
-					android:src="@drawable/ic_rotate_right" />
+					android:src="@drawable/ic_rotate_right"/>
 
 			</FrameLayout>
 
 		</LinearLayout>
+
+		<ListView
+			android:id="@+id/rankingUsers"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:scrollbars="none"
+			android:divider="@null"
+			android:dividerHeight="0dp"
+			android:padding="10dp">
+
+		</ListView>
 
 	</LinearLayout>
 

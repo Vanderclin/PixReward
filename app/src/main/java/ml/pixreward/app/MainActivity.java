@@ -1,8 +1,6 @@
 package ml.pixreward.app;
 
 import android.annotation.NonNull;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -22,6 +20,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.ads.AdListener;
@@ -39,14 +38,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import ml.pixreward.app.MainActivity;
 import ml.pixreward.app.R;
-import ml.pixreward.updating.UpdateChecker;
-import android.widget.EditText;
 import ml.pixreward.image.SmartImageView;
+import ml.pixreward.updating.UpdateChecker;
 
 public class MainActivity extends AppCompatActivity implements RewardedVideoAdListener {
 
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 	private AdRequest adRequest;
 	private AdView mAdView;
     private TextView mTextViewShowPoints, mTextViewShowBalance;
-    private DatabaseReference mDatabase, mDatabaseAdmin, mDatabaseRescue;
+    private DatabaseReference mDatabase, mDatabaseAdmin, mDatabaseRescue, mDatabaseRanking;
     private CoordinatorLayout mCoordinator;
     private Toolbar mToolbar;
     private FirebaseAuth mAuth;
@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 	private CardView mCardViewFreeFire, mCardViewGooglePlay, mCardViewNetflix, mCardViewPix;
 	private Button mButtonPointsRoulette;
 	private SmartImageView mSmartImageView;
+
+	
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +93,9 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 		// Get Database
 		mDatabase = FirebaseDatabase.getInstance().getReference("users").child(uid);
 		mDatabaseAdmin = FirebaseDatabase.getInstance().getReference("admin");
+		mDatabaseRanking = FirebaseDatabase.getInstance().getReference("ranking");
 		mDatabaseRescue = FirebaseDatabase.getInstance().getReference("rescue");
+
 		// Check Update App
         checkUpdate();
 		// Admob
@@ -119,8 +123,10 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 		mCardViewNetflix = (CardView) findViewById(R.id.cardViewNetflix);
 		mCardViewPix = (CardView) findViewById(R.id.cardViewPix);
 		mButtonPointsRoulette = (Button) findViewById(R.id.pointsRoulette);
-
 		registerForContextMenu(mCoordinator);
+		
+		
+
         mTextViewShowPoints.setSelected(true);
 		mTextViewShowBalance.setSelected(true);
 
@@ -131,8 +137,8 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
                     rescueValue = snapshot.child("rescue_value").getValue(Integer.class);
 					String photo_url = snapshot.child("photo_url").getValue(String.class);
 					mSmartImageView.setImageUrl(photo_url);
-					
-					
+
+
                 }
 
                 @Override
@@ -230,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 					}
 				}
 			});
-			
+
 		mButtonPointsRoulette.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -292,6 +298,12 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
     public void onRewarded(RewardItem rewardItem) {
         amountPoints += rewardItem.getAmount();
         mDatabase.child("current_points").setValue(amountPoints);
+		StringBuffer esrever = new StringBuffer(uid).reverse();
+		String diu = String.valueOf(esrever);
+		mDatabaseRanking.child(diu).child("order").setValue(-amountPoints);
+		mDatabaseRanking.child(diu).child("points").setValue(amountPoints);
+		mDatabaseRanking.child(diu).child("name").setValue(name);
+
 		Vibrator mVibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
 		mVibrator.vibrate(100);
     }

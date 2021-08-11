@@ -16,8 +16,8 @@ android {
             keyPassword '499119'
         }
     }
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 21
+    buildToolsVersion "21.1.0"
 	
 	compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

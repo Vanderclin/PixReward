@@ -2,8 +2,8 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="ml.pixreward.app"
-    android:versionCode="20"
-    android:versionName="2.0">
+    android:versionCode="21"
+    android:versionName="2.1">
 
     <!-- Acesso completo à rede -->
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -16,28 +16,14 @@
 
     <uses-sdk
         android:minSdkVersion="21"
-        android:targetSdkVersion="30">
-
+        android:targetSdkVersion="29">
     </uses-sdk>
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
-    <supports-screens
-        android:resizeable="true"
-        android:smallScreens="true"
-        android:largeScreens="true"
-        android:xlargeScreens="true"
-        android:normalScreens="true"
-        android:anyDensity="true">
-    </supports-screens>
-
     <application
+		android:hardwareAccelerated="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:largeHeap="true"
         android:resizeableActivity="true">
 
         <activity

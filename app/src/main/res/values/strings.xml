@@ -90,4 +90,10 @@
 	
 	<string name="press_again_to_go_back">Pressione novamente para voltar</string>
 	
+	
+	
+	<string name="server">Servidor</string>
+	<string name="update_server">Servidor de atualização</string>
+	
+	
 </resources>

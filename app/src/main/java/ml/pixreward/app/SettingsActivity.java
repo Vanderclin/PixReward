@@ -18,18 +18,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import ml.pixreward.updating.Constants;
 
 public class SettingsActivity extends PreferenceActivity {
 	
 	private AppCompatDelegate mDelegate;
-	public SwitchPreference mSwitchPreference;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		getDelegate().installViewFactory();
         getDelegate().onCreate(savedInstanceState);
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.settings);
+		
+		findPreference("server").setSummary("Loading");
+		
 		
 	}
 	

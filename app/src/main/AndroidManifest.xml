@@ -93,7 +93,7 @@
             android:label="@string/settings">
 
         </activity>
-		
+
 		<activity
 			android:name=".RouletteActivity"
 			android:noHistory="true"
@@ -102,8 +102,14 @@
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppTheme"
             android:label="@string/points_roulette">
-			
+
 		</activity>
+		
+		<!-- Sample AdMob App ID: ca-app-pub-3940256099942544~3347511713 -->
+		<meta-data
+			android:name="com.google.android.gms.ads.APPLICATION_ID"
+			android:value="@string/id_app"/>
+
 
     </application>
 

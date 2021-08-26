@@ -47,6 +47,7 @@ import ml.pixreward.app.MainActivity;
 import ml.pixreward.app.R;
 import ml.pixreward.image.SmartImageView;
 import ml.pixreward.updating.UpdateChecker;
+import android.animation.ValueAnimator;
 
 public class MainActivity extends AppCompatActivity implements RewardedVideoAdListener {
 
@@ -69,8 +70,8 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 	private Button mButtonPointsRoulette;
 	private SmartImageView mSmartImageView;
 
-	
-	
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,8 +125,8 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 		mCardViewPix = (CardView) findViewById(R.id.cardViewPix);
 		mButtonPointsRoulette = (Button) findViewById(R.id.pointsRoulette);
 		registerForContextMenu(mCoordinator);
-		
-		
+
+
 
         mTextViewShowPoints.setSelected(true);
 		mTextViewShowBalance.setSelected(true);
@@ -153,13 +154,20 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     amountPoints = snapshot.child("current_points").getValue(Integer.class);
-                    String replaceValue = amountPoints.toString().replaceAll("[$,.]", "");
-                    double doubleValue = Double.parseDouble(replaceValue);
-                    String points = Integer.toString(amountPoints);
-                    String balance = NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format((doubleValue / 1000));
-                    mTextViewShowPoints.setText(points);
-                    mTextViewShowBalance.setText(balance);
-                }
+					ValueAnimator animator = ValueAnimator.ofInt(0, amountPoints);
+					animator.setDuration(6000);
+					animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+							public void onAnimationUpdate(ValueAnimator animation) {
+								String replaceValue = animation.getAnimatedValue().toString().replaceAll("[$,.]", "");
+								double doubleValue = Double.parseDouble(replaceValue);
+								String points = animation.getAnimatedValue().toString();
+								String balance = NumberFormat.getCurrencyInstance(new Locale("pt", "BR")).format((doubleValue / 1000));
+								mTextViewShowPoints.setText(points);
+								mTextViewShowBalance.setText(balance);
+							}
+						});
+					animator.start();
+				}
 
                 @Override
                 public void onCancelled(DatabaseError error) {

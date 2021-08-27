@@ -28,9 +28,16 @@ public class MessageAdapter extends ArrayAdapter<Message> {
         TextView textViewName = listViewItem.findViewById(R.id.display_username);
         TextView textDisplayMessage = (TextView) listViewItem.findViewById(R.id.display_message);
         TextView textDisplayTime = (TextView) listViewItem.findViewById(R.id.display_time);
-
+		ImageView imageDisplayVerified = listViewItem.findViewById(R.id.display_verified);
 
         Message Message = Messages.get(position);
+		if (Message.getVERIFIED() == false || Message.getVERIFIED() == null ) {
+			imageDisplayVerified.setVisibility(View.GONE);
+			textDisplayTime.setVisibility(View.VISIBLE);
+		} else {
+			imageDisplayVerified.setVisibility(View.VISIBLE);
+			textDisplayTime.setVisibility(View.GONE);
+		}
         textViewName.setText(Message.getNAME());
         textDisplayMessage.setText(Message.getMESSAGE());
         textDisplayTime.setText(Message.getTIME());

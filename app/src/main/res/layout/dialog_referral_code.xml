@@ -12,21 +12,37 @@
 		android:layout_height="wrap_content">
 
 		<EditText
-			android:id="@+id/referralCodeInsert"
+			android:id="@+id/editTextRescueCode"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:hint="@string/full_name"
-			android:inputType="text|textCapSentences"
+			android:hint="Insira o código"
+			android:inputType="textNoSuggestions"
 			android:singleLine="true"/>
 
 	</android.support.design.widget.TextInputLayout>
 
-	<Button
+	<LinearLayout
+		android:orientation="horizontal"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="Verificar"
-		android:layout_marginTop="16dp"
-		android:id="@+id/referralCodeInsertCheck"/>
+		android:layout_height="wrap_content">
+
+		<Button
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/cancel"
+			android:layout_weight="1.0"
+			android:id="@+id/buttonRescueCodeCancel"
+			style="@style/ButtonTheme"/>
+
+		<Button
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="Verificar"
+			android:id="@+id/buttonRescueCodeCheck"
+			android:layout_weight="1.0"
+			style="@style/ButtonTheme"/>
+
+	</LinearLayout>
 
 </LinearLayout>
 

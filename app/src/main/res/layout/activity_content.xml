@@ -20,34 +20,42 @@
 			card_view:cardCornerRadius="5dp"
 			style="@style/CardViewTheme">
 
-			<LinearLayout
+			<FrameLayout
 				android:orientation="vertical"
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:paddingTop="@dimen/activity_vertical_margin"
-				android:paddingBottom="@dimen/activity_vertical_margin">
+				android:gravity="bottom"
+				android:layout_height="wrap_content">
 
 				<TextView
 					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:textAppearance="?android:attr/textAppearanceSmall"
+					android:layout_height="100dp"
+					android:text="@string/points_value"
+					android:textAppearance="?android:attr/textAppearanceLarge"
 					android:gravity="center"
 					android:marqueeRepeatLimit="marquee_forever"
 					android:scrollHorizontally="true"
 					android:singleLine="true"
 					android:ellipsize="marquee"
-					android:text="@string/points"/>
-
-				<TextView
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/points_value"
-					android:textAppearance="?android:attr/textAppearanceLarge"
-					android:gravity="center"
-					android:padding="10dp"
+					android:padding="@dimen/padding_medium"
 					android:id="@+id/textview_show_points"/>
 
-			</LinearLayout>
+				<LinearLayout
+					android:orientation="vertical"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_gravity="bottom"
+					android:padding="@dimen/padding_small">
+
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:gravity="right|center"
+						android:text="@string/points"
+						android:padding="3dp"/>
+
+				</LinearLayout>
+
+			</FrameLayout>
 
 		</android.support.v7.widget.CardView>
 
@@ -59,34 +67,42 @@
 			card_view:cardCornerRadius="5dp"
 			style="@style/CardViewTheme">
 
-			<LinearLayout
+			<FrameLayout
 				android:orientation="vertical"
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:paddingTop="@dimen/activity_vertical_margin"
-				android:paddingBottom="@dimen/activity_vertical_margin">
+				android:gravity="bottom"
+				android:layout_height="wrap_content">
 
 				<TextView
 					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:textAppearance="?android:attr/textAppearanceSmall"
+					android:layout_height="100dp"
+					android:text="@string/points_value"
+					android:textAppearance="?android:attr/textAppearanceLarge"
 					android:gravity="center"
 					android:marqueeRepeatLimit="marquee_forever"
 					android:scrollHorizontally="true"
 					android:singleLine="true"
 					android:ellipsize="marquee"
-					android:text="@string/balance"/>
-
-				<TextView
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/balance_value"
-					android:textAppearance="?android:attr/textAppearanceLarge"
-					android:gravity="center"
-					android:padding="10dp"
+					android:padding="@dimen/padding_medium"
 					android:id="@+id/textview_show_balance"/>
 
-			</LinearLayout>
+				<LinearLayout
+					android:orientation="vertical"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_gravity="bottom"
+					android:padding="@dimen/padding_small">
+
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:gravity="right|center"
+						android:text="@string/balance"
+						android:padding="3dp"/>
+
+				</LinearLayout>
+
+			</FrameLayout>
 
 		</android.support.v7.widget.CardView>
 
@@ -119,25 +135,34 @@
 				style="@style/CardViewTheme"
 				android:id="@+id/cardViewFreeFire">
 
-				<LinearLayout
+				<FrameLayout
 					android:orientation="vertical"
 					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:gravity="center">
+					android:gravity="bottom"
+					android:layout_height="wrap_content">
 
 					<ImageView
 						android:src="@drawable/logo_freefire"
 						android:layout_width="match_parent"
 						android:layout_height="100dp"/>
 
-					<TextView
-						android:layout_height="wrap_content"
+					<LinearLayout
+						android:orientation="vertical"
 						android:layout_width="match_parent"
-						android:text="@string/minimum_value"
-						android:gravity="center"
-						android:padding="3dp"/>
+						android:layout_height="wrap_content"
+						android:layout_gravity="bottom"
+						android:padding="@dimen/padding_small">
 
-				</LinearLayout>
+						<TextView
+							android:layout_height="wrap_content"
+							android:layout_width="match_parent"
+							android:text="@string/minimum_value"
+							android:padding="3dp"
+							android:gravity="right|center"/>
+
+					</LinearLayout>
+
+				</FrameLayout>
 
 			</android.support.v7.widget.CardView>
 
@@ -150,25 +175,34 @@
 				style="@style/CardViewTheme"
 				android:id="@+id/cardViewGooglePlay">
 
-				<LinearLayout
+				<FrameLayout
 					android:orientation="vertical"
 					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:gravity="center">
+					android:gravity="bottom"
+					android:layout_height="wrap_content">
 
 					<ImageView
 						android:src="@drawable/logo_googleplay"
 						android:layout_width="match_parent"
 						android:layout_height="100dp"/>
 
-					<TextView
-						android:layout_height="wrap_content"
+					<LinearLayout
+						android:orientation="vertical"
 						android:layout_width="match_parent"
-						android:text="@string/minimum_value"
-						android:gravity="center"
-						android:padding="3dp"/>
+						android:layout_height="wrap_content"
+						android:layout_gravity="bottom"
+						android:padding="@dimen/padding_small">
 
-				</LinearLayout>
+						<TextView
+							android:layout_height="wrap_content"
+							android:layout_width="match_parent"
+							android:text="@string/minimum_value"
+							android:padding="3dp"
+							android:gravity="right|center"/>
+
+					</LinearLayout>
+
+				</FrameLayout>
 
 			</android.support.v7.widget.CardView>
 
@@ -188,25 +222,34 @@
 				style="@style/CardViewTheme"
 				android:id="@+id/cardViewNetflix">
 
-				<LinearLayout
+				<FrameLayout
 					android:orientation="vertical"
 					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:gravity="center">
+					android:gravity="bottom"
+					android:layout_height="wrap_content">
 
 					<ImageView
 						android:src="@drawable/logo_netflix"
 						android:layout_width="match_parent"
 						android:layout_height="100dp"/>
 
-					<TextView
-						android:layout_height="wrap_content"
+					<LinearLayout
+						android:orientation="vertical"
 						android:layout_width="match_parent"
-						android:text="@string/minimum_value"
-						android:gravity="center"
-						android:padding="3dp"/>
+						android:layout_height="wrap_content"
+						android:layout_gravity="bottom"
+						android:padding="@dimen/padding_small">
 
-				</LinearLayout>
+						<TextView
+							android:layout_height="wrap_content"
+							android:layout_width="match_parent"
+							android:text="@string/minimum_value"
+							android:padding="3dp"
+							android:gravity="right|center"/>
+
+					</LinearLayout>
+
+				</FrameLayout>
 
 			</android.support.v7.widget.CardView>
 
@@ -219,25 +262,34 @@
 				style="@style/CardViewTheme"
 				android:id="@+id/cardViewPix">
 
-				<LinearLayout
+				<FrameLayout
 					android:orientation="vertical"
 					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:gravity="center">
+					android:gravity="bottom"
+					android:layout_height="wrap_content">
 
 					<ImageView
 						android:src="@drawable/logo_pix"
 						android:layout_width="match_parent"
 						android:layout_height="100dp"/>
 
-					<TextView
-						android:layout_height="wrap_content"
+					<LinearLayout
+						android:orientation="vertical"
 						android:layout_width="match_parent"
-						android:text="@string/minimum_value"
-						android:gravity="center"
-						android:padding="3dp"/>
+						android:layout_height="wrap_content"
+						android:layout_gravity="bottom"
+						android:padding="@dimen/padding_small">
 
-				</LinearLayout>
+						<TextView
+							android:layout_height="wrap_content"
+							android:layout_width="match_parent"
+							android:text="@string/minimum_value"
+							android:padding="3dp"
+							android:gravity="right|center"/>
+
+					</LinearLayout>
+
+				</FrameLayout>
 
 			</android.support.v7.widget.CardView>
 

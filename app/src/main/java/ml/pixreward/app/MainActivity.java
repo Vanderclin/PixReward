@@ -1,8 +1,10 @@
 package ml.pixreward.app;
 
+import android.animation.ValueAnimator;
 import android.annotation.NonNull;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -13,6 +15,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,7 +23,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.ads.AdListener;
@@ -38,16 +42,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import ml.pixreward.app.MainActivity;
 import ml.pixreward.app.R;
 import ml.pixreward.image.SmartImageView;
 import ml.pixreward.updating.UpdateChecker;
-import android.animation.ValueAnimator;
 
 public class MainActivity extends AppCompatActivity implements RewardedVideoAdListener {
 
@@ -65,10 +66,18 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
     private Uri photoUrl;
 	private boolean emailVerified;
     private FloatingActionButton mFloatingChatPlus, mFloatingAdView;
-	private Integer rescueValue, amountPoints;
+	
 	private CardView mCardViewFreeFire, mCardViewGooglePlay, mCardViewNetflix, mCardViewPix;
 	private Button mButtonPointsRoulette;
 	private SmartImageView mSmartImageView;
+	
+	
+	// Rescue
+	private String rescueCode;
+	
+	private Integer rescueValue;
+	private Integer amountPoints;
+	private Integer rescueWithdraw;
 
 
 
@@ -132,10 +141,14 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 		mTextViewShowBalance.setSelected(true);
 
 		startInterstitial();
+		// Admin
 		mDatabaseAdmin.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     rescueValue = snapshot.child("rescue_value").getValue(Integer.class);
+					rescueCode = snapshot.child("rescue_code").getValue(String.class);
+					rescueWithdraw = snapshot.child("rescue_withdraw").getValue(Integer.class);
+					
 					String photo_url = snapshot.child("photo_url").getValue(String.class);
 					mSmartImageView.setImageUrl(photo_url);
 
@@ -198,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 		mCardViewFreeFire.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (amountPoints >= rescueValue) {
+					if (amountPoints >= rescueWithdraw) {
 						String type = "Free Fire";
 						String description = "O resgate do cartão presente para Free Fire pode levar até 3 dias úteis";
 						openDialog(type, description);
@@ -210,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 		mCardViewGooglePlay.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (amountPoints >= rescueValue) {
+					if (amountPoints >= rescueWithdraw) {
 						String type = "Google Play";
 						String description = "O resgate do cartão presente para Google Play pode levar até 3 dias úteis";
 						openDialog(type, description);
@@ -222,7 +235,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 		mCardViewNetflix.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (amountPoints >= rescueValue) {
+					if (amountPoints >= rescueWithdraw) {
 						String type = "Netflix";
 						String description = "O resgate do cartão presente para Netflix pode levar até 3 dias úteis";
 						openDialog(type, description);
@@ -235,7 +248,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 		mCardViewPix.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (amountPoints >= rescueValue) {
+					if (amountPoints >= rescueWithdraw) {
 						String type = "Pix";
 						String description = "O resgate do Pix pode levar até 24 horas, até a confirmação dos dados do usuário.";
 						openDialog(type, description);
@@ -270,6 +283,12 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
             case R.id.menu_about:
 				startActivity(new Intent(MainActivity.this, AboutActivity.class));
 				return true;
+
+			case R.id.menu_rescue_code:
+				rescueCode();
+				return true;
+
+
 			case R.id.menu_signout:
 				mAuth.getInstance().signOut();
 				finish();
@@ -376,17 +395,85 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 		mButtonRescue.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					mDatabase.child("current_points").setValue(amountPoints - rescueValue);
+					mDatabase.child("current_points").setValue(amountPoints - rescueWithdraw);
 					Map<String, Object> values = new HashMap<>();
 					values.put("current_points", amountPoints);
 					values.put("current_email", email);
 					values.put("current_username", name);
 					values.put("current_type", type);
-					mDatabaseRescue.setValue(values);
+					mDatabaseRescue.child(uid).setValue(values);
 					mAlert.dismiss();
 				}
 			});
 	}
+
+	private void rescueCode() {
+		AlertDialog.Builder mAlertDialog = new AlertDialog.Builder(this);
+		LayoutInflater inflater = getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.dialog_referral_code, null);
+		mAlertDialog.setView(dialogView);
+		final EditText mRescueCode = dialogView.findViewById(R.id.editTextRescueCode);
+		
+		final Button mButtonCancel = dialogView.findViewById(R.id.buttonRescueCodeCancel);
+		final Button mButtonRescue = dialogView.findViewById(R.id.buttonRescueCodeCheck);
+
+		final AlertDialog mAlert = mAlertDialog.create();
+		mAlert.setCancelable(false);
+		mAlert.show();
+		mButtonCancel.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					mAlert.dismiss();
+				}
+			});
+		
+		
+		mButtonRescue.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+
+					String code = mRescueCode.getText().toString();
+
+					if (TextUtils.isEmpty(code)) {
+						Toast.makeText(MainActivity.this, "Insira o código", Toast.LENGTH_LONG).show();
+					}
+					if (code.equals(rescueCode)) {
+						Toast.makeText(MainActivity.this, "Código igual", Toast.LENGTH_LONG).show();
+						amountPoints += rescueValue;
+						mDatabase.child("current_points").setValue(amountPoints);
+						String empty = "								";
+						mDatabaseAdmin.child("rescue_code").setValue(empty);
+						mDatabaseAdmin.child("rescue_value").setValue(0);
+						congratulationDialog(rescueValue);
+						mAlert.dismiss();
+					} else {
+						Toast.makeText(MainActivity.this, "Código diferente", Toast.LENGTH_LONG).show();
+					}
+				}
+			});
+	}
+	
+	
+	private void congratulationDialog(Integer rescuePoints) {
+		AlertDialog.Builder mAlertDialog = new AlertDialog.Builder(this);
+		LayoutInflater inflater = getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.dialog_congratulation, null);
+		mAlertDialog.setView(dialogView);
+		TextView mTextViewMessage = dialogView.findViewById(R.id.congratulationValue);
+		LinearLayout mLinearLayout = dialogView.findViewById(R.id.congratulationLinearLayout);
+        AnimationDrawable animationDrawable = (AnimationDrawable) mLinearLayout.getBackground();
+        animationDrawable.setEnterFadeDuration(1000);
+        animationDrawable.setExitFadeDuration(2000);
+        animationDrawable.start();
+		mTextViewMessage.setText(getString(R.string.you_win, rescuePoints));
+		mAlertDialog.setCancelable(true);
+		mAlertDialog.show();
+	}
+
+
+
+
+
 
 	/** Called when leaving the activity */
     @Override

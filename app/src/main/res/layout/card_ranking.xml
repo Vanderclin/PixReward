@@ -14,7 +14,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:gravity="center"
-		android:padding="8dp">
+		android:padding="@dimen/padding_medium">
 
 		<TextView
 			android:layout_width="match_parent"
@@ -38,13 +38,6 @@
 				<TextView
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:text="@string/points"
-					android:textAppearance="?android:attr/textAppearanceSmall"
-					android:gravity="center"/>
-
-				<TextView
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
 					android:text="0"
 					android:textAppearance="?android:attr/textAppearanceLarge"
 					android:gravity="center"
@@ -57,13 +50,6 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:layout_weight="1.0">
-
-				<TextView
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/balance"
-					android:textAppearance="?android:attr/textAppearanceSmall"
-					android:gravity="center"/>
 
 				<TextView
 					android:layout_width="match_parent"

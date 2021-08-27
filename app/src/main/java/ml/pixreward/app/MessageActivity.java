@@ -115,14 +115,17 @@ public class MessageActivity extends AppCompatActivity implements RewardedVideoA
 					Date today = Calendar.getInstance().getTime();
 					SimpleDateFormat formatter = new SimpleDateFormat("hh:mm - dd/MM/yyyy");
 					String time = formatter.format(today);
+					Boolean verified = emailVerified;
+					
+					
 					if (!TextUtils.isEmpty(message)) {
 						String id = mDatabaseMessage.push().getKey();
-						Message msg = new Message(id, name, message, time, uid);
+						Message msg = new Message(id, name, message, time, uid, verified);
 						mDatabaseMessage.child(id).setValue(msg);
 						mEditText.setText("");
 						loadRewardedVideoAd();
 					} else {
-						Toast.makeText(MessageActivity.this, "Type a message", Toast.LENGTH_LONG).show();
+						Toast.makeText(MessageActivity.this, getString(R.string.type_a_message), Toast.LENGTH_LONG).show();
 					}
 				}
 			});

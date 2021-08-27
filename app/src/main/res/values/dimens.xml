@@ -2,4 +2,9 @@
 <resources>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+	
+	
+	<dimen name="padding_small">5.33333333333dp</dimen>
+	<dimen name="padding_medium">10.6666666666dp</dimen>
+	<dimen name="padding_large">16dp</dimen>
 </resources>

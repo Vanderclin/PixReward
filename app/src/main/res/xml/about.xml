@@ -3,7 +3,7 @@
     android:persistent="false"
     android:title="@string/about">
 
-    <PreferenceCategory android:title="@string/about">
+    <PreferenceCategory android:title="@string/app">
 
         <Preference
             android:key="version"

@@ -24,7 +24,8 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				card_view:cardCornerRadius="5dp"
-				style="@style/CardViewTheme">
+				style="@style/CardViewTheme"
+				android:layout_weight="1.0">
 
 				<LinearLayout
 					android:orientation="vertical"
@@ -63,7 +64,8 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				card_view:cardCornerRadius="5dp"
-				style="@style/CardViewTheme">
+				style="@style/CardViewTheme"
+				android:layout_weight="1.0">
 
 				<LinearLayout
 					android:orientation="vertical"
@@ -103,7 +105,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="330dp"
 			android:layout_marginTop="10dp">
-			
+
 			<FrameLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"

@@ -25,7 +25,6 @@
         <item name="cardPreventCornerOverlap">true</item>
 		<item name="android:layout_width">match_parent</item>
 		<item name="android:layout_height">wrap_content</item>
-		<item name="android:layout_weight">1.0</item>
     </style>
 	
 	<style name="ButtonTheme" parent="AppTheme">

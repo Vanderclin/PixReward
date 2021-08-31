@@ -1,58 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical"
+	android:orientation="horizontal"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent"
+	android:layout_height="wrap_content"
 	android:gravity="center"
-	android:padding="8dp">
+	android:padding="@dimen/padding_medium">
 
-	<TextView
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="@string/full_name"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:gravity="center"
-		android:id="@+id/rankingUsername"/>
+	<ImageView
+		android:layout_width="@dimen/avatar_large"
+		android:layout_height="@dimen/avatar_large"
+		android:id="@+id/display_profile_picture"
+		android:src="@drawable/avatar_master"/>
 
 	<LinearLayout
-		android:orientation="horizontal"
+		android:orientation="vertical"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content">
+		android:layout_height="wrap_content"
+		android:padding="@dimen/padding_medium"
+		android:layout_weight="1.0">
 
-		<LinearLayout
-			android:orientation="vertical"
+		<TextView
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_weight="1.0">
+			android:textAppearance="?android:attr/textAppearanceMedium"
+			android:gravity="left|center"
+			android:id="@+id/display_profile_name"
+			android:text="@string/username"/>
 
-			<TextView
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:text="0"
-				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:gravity="center"
-				android:id="@+id/rankingPoints"/>
-
-		</LinearLayout>
-
-		<LinearLayout
-			android:orientation="vertical"
+		<TextView
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_weight="1.0">
-
-			<TextView
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:text="R$0,00"
-				android:textAppearance="?android:attr/textAppearanceLarge"
-				android:gravity="center"
-				android:id="@+id/rankingBalance"/>
-
-		</LinearLayout>
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:gravity="left|center"
+			android:id="@+id/display_profile_email"
+			android:text="@string/email"/>
 
 	</LinearLayout>
+
+	<ImageView
+		android:src="@drawable/ic_message"
+		android:layout_width="@dimen/drawable_small"
+		android:layout_height="@dimen/drawable_small"
+		android:layout_marginRight="@dimen/margin_medium"
+		android:layout_marginLeft="@dimen/margin_medium"/>
 
 </LinearLayout>
 

@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,9 +44,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.text.NumberFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import ml.pixreward.app.MainActivity;
+import ml.pixreward.app.MessageActivity;
 import ml.pixreward.app.R;
 import ml.pixreward.image.SmartImageView;
 import ml.pixreward.updating.UpdateChecker;
@@ -65,20 +68,33 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
     private String name, email, uid;
     private Uri photoUrl;
 	private boolean emailVerified;
-    private FloatingActionButton mFloatingChatPlus, mFloatingAdView;
-	
+    private FloatingActionButton mFloatingAdView;
+
 	private CardView mCardViewFreeFire, mCardViewGooglePlay, mCardViewNetflix, mCardViewPix;
 	private Button mButtonPointsRoulette;
 	private SmartImageView mSmartImageView;
-	
-	
+
+
+	private ImageView mImageChatPlus;
+
 	// Rescue
 	private String rescueCode;
-	
+
 	private Integer rescueValue;
-	private Integer amountPoints;
+	// private Integer amountPoints;
 	private Integer rescueWithdraw;
 
+
+	private TextView displayName, displayEmail;
+	private ImageView displayPicture;
+
+	// Profile
+	private String currentAppVersion;
+	private String currentDevice;
+	private String currentEmail;
+	private String currentPix;
+	private Integer currentPoints, currentGenre;
+	private String currentUsername;
 
 
     @Override
@@ -123,11 +139,20 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 		mCoordinator = (CoordinatorLayout) findViewById(R.id.root_coordinator);
 		mSmartImageView = (SmartImageView) findViewById(R.id.displayThumbnail);
 		mFloatingAdView = (FloatingActionButton) findViewById(R.id.fab_ad_view);
-		mFloatingChatPlus = (FloatingActionButton) findViewById(R.id.fab_chat_plus);
+		mImageChatPlus = (ImageView) findViewById(R.id.img_chat_plus);
 		mTextViewShowPoints = (TextView) findViewById(R.id.textview_show_points);
 		mTextViewShowPoints.setSelected(true);
         mTextViewShowBalance = (TextView) findViewById(R.id.textview_show_balance);
 		mTextViewShowBalance.setSelected(true);
+
+		displayPicture = (ImageView) findViewById(R.id.display_profile_picture);
+		displayName = (TextView) findViewById(R.id.display_profile_name);
+		displayEmail = (TextView) findViewById(R.id.display_profile_email);
+		displayName.setText(name);
+		displayEmail.setText(email);
+
+
+
 		mCardViewFreeFire = (CardView) findViewById(R.id.cardViewFreeFire);
 		mCardViewGooglePlay = (CardView) findViewById(R.id.cardViewGooglePlay);
 		mCardViewNetflix = (CardView) findViewById(R.id.cardViewNetflix);
@@ -148,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
                     rescueValue = snapshot.child("rescue_value").getValue(Integer.class);
 					rescueCode = snapshot.child("rescue_code").getValue(String.class);
 					rescueWithdraw = snapshot.child("rescue_withdraw").getValue(Integer.class);
-					
+
 					String photo_url = snapshot.child("photo_url").getValue(String.class);
 					mSmartImageView.setImageUrl(photo_url);
 
@@ -166,8 +191,12 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
         mDatabase.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
-                    amountPoints = snapshot.child("current_points").getValue(Integer.class);
-					ValueAnimator animator = ValueAnimator.ofInt(0, amountPoints);
+					currentGenre = snapshot.child("current_genre").getValue(Integer.class);
+                    currentPoints = snapshot.child("current_points").getValue(Integer.class);
+					
+					setImageProfile(currentGenre);
+					
+					ValueAnimator animator = ValueAnimator.ofInt(0, currentPoints);
 					animator.setDuration(6000);
 					animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 							public void onAnimationUpdate(ValueAnimator animation) {
@@ -189,8 +218,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
                 }
             });
 
-
-		mFloatingChatPlus.setOnClickListener(new View.OnClickListener() {
+		mImageChatPlus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 					finish();
@@ -211,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 		mCardViewFreeFire.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (amountPoints >= rescueWithdraw) {
+					if (currentPoints >= rescueWithdraw) {
 						String type = "Free Fire";
 						String description = "O resgate do cartão presente para Free Fire pode levar até 3 dias úteis";
 						openDialog(type, description);
@@ -223,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 		mCardViewGooglePlay.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (amountPoints >= rescueWithdraw) {
+					if (currentPoints >= rescueWithdraw) {
 						String type = "Google Play";
 						String description = "O resgate do cartão presente para Google Play pode levar até 3 dias úteis";
 						openDialog(type, description);
@@ -235,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 		mCardViewNetflix.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (amountPoints >= rescueWithdraw) {
+					if (currentPoints >= rescueWithdraw) {
 						String type = "Netflix";
 						String description = "O resgate do cartão presente para Netflix pode levar até 3 dias úteis";
 						openDialog(type, description);
@@ -248,7 +276,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 		mCardViewPix.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (amountPoints >= rescueWithdraw) {
+					if (currentPoints >= rescueWithdraw) {
 						String type = "Pix";
 						String description = "O resgate do Pix pode levar até 24 horas, até a confirmação dos dados do usuário.";
 						openDialog(type, description);
@@ -323,12 +351,12 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 
     @Override
     public void onRewarded(RewardItem rewardItem) {
-        amountPoints += rewardItem.getAmount();
-        mDatabase.child("current_points").setValue(amountPoints);
+        currentPoints += rewardItem.getAmount();
+        mDatabase.child("current_points").setValue(currentPoints);
 		StringBuffer esrever = new StringBuffer(uid).reverse();
 		String diu = String.valueOf(esrever);
-		mDatabaseRanking.child(diu).child("order").setValue(-amountPoints);
-		mDatabaseRanking.child(diu).child("points").setValue(amountPoints);
+		mDatabaseRanking.child(diu).child("order").setValue(-currentPoints);
+		mDatabaseRanking.child(diu).child("points").setValue(currentPoints);
 		mDatabaseRanking.child(diu).child("name").setValue(name);
 
 		Vibrator mVibrator = (Vibrator) getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
@@ -395,9 +423,9 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 		mButtonRescue.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					mDatabase.child("current_points").setValue(amountPoints - rescueWithdraw);
+					mDatabase.child("current_points").setValue(currentPoints - rescueWithdraw);
 					Map<String, Object> values = new HashMap<>();
-					values.put("current_points", amountPoints);
+					values.put("current_points", currentPoints);
 					values.put("current_email", email);
 					values.put("current_username", name);
 					values.put("current_type", type);
@@ -413,7 +441,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
         final View dialogView = inflater.inflate(R.layout.dialog_referral_code, null);
 		mAlertDialog.setView(dialogView);
 		final EditText mRescueCode = dialogView.findViewById(R.id.editTextRescueCode);
-		
+
 		final Button mButtonCancel = dialogView.findViewById(R.id.buttonRescueCodeCancel);
 		final Button mButtonRescue = dialogView.findViewById(R.id.buttonRescueCodeCheck);
 
@@ -426,8 +454,8 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 					mAlert.dismiss();
 				}
 			});
-		
-		
+
+
 		mButtonRescue.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
@@ -439,8 +467,8 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 					}
 					if (code.equals(rescueCode)) {
 						Toast.makeText(MainActivity.this, "Código igual", Toast.LENGTH_LONG).show();
-						amountPoints += rescueValue;
-						mDatabase.child("current_points").setValue(amountPoints);
+						currentPoints += rescueValue;
+						mDatabase.child("current_points").setValue(currentPoints);
 						String empty = "								";
 						mDatabaseAdmin.child("rescue_code").setValue(empty);
 						mDatabaseAdmin.child("rescue_value").setValue(0);
@@ -452,8 +480,8 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 				}
 			});
 	}
-	
-	
+
+
 	private void congratulationDialog(Integer rescuePoints) {
 		AlertDialog.Builder mAlertDialog = new AlertDialog.Builder(this);
 		LayoutInflater inflater = getLayoutInflater();
@@ -505,4 +533,17 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
         super.onDestroy();
     }
 
+	private void setImageProfile(Integer genre) {
+        switch (genre) {
+            case 0:
+                displayPicture.setImageDrawable(getResources().getDrawable(R.drawable.avatar_female));
+                return;
+            case 1:
+                displayPicture.setImageDrawable(getResources().getDrawable(R.drawable.avatar_male));
+                return;
+            case 2:
+                displayPicture.setImageDrawable(getResources().getDrawable(R.drawable.avatar_master));
+                return;
+        }
+    }
 }

@@ -1,18 +1,17 @@
 package ml.pixreward.app;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,6 +33,11 @@ public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
 	private String fullname, email, pixkey, password;
+	private RadioGroup mRadioGroup;
+    private RadioButton mRadioButton;
+	private int mRadioID, mGenreResult;
+	
+	
 	private DatabaseReference mDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,7 @@ public class SignUpActivity extends AppCompatActivity {
         mEditEmail = (EditText) findViewById(R.id.email);
 		mEditPixKey = (EditText) findViewById(R.id.pixkey);
         mEditPassword = (EditText) findViewById(R.id.password);
+		mRadioGroup = (RadioGroup) findViewById(R.id.radioGroup);
 		buttonSignUp = (Button) findViewById(R.id.sign_up_button);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +67,7 @@ public class SignUpActivity extends AppCompatActivity {
 
 					if (TextUtils.isEmpty(fullname)) {
 						Toast.makeText(getApplicationContext(), getString(R.string.enter_full_name), Toast.LENGTH_SHORT).show();
+						return;
 					}
                     if (TextUtils.isEmpty(email)) {
                         Toast.makeText(getApplicationContext(), getString(R.string.enter_the_email), Toast.LENGTH_SHORT).show();
@@ -69,6 +75,7 @@ public class SignUpActivity extends AppCompatActivity {
                     }
 					if (TextUtils.isEmpty(pixkey)) {
 						Toast.makeText(getApplicationContext(), getString(R.string.enter_pix_key), Toast.LENGTH_SHORT).show();
+						return;
 					}
                     if (TextUtils.isEmpty(password)) {
                         Toast.makeText(getApplicationContext(), getString(R.string.enter_password), Toast.LENGTH_SHORT).show();
@@ -78,7 +85,20 @@ public class SignUpActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), getString(R.string.minimum_password), Toast.LENGTH_LONG).show();
                         return;
                     }
-
+					
+					mRadioID = mRadioGroup.getCheckedRadioButtonId();
+					mRadioButton = (RadioButton) findViewById(mRadioID);
+					if (mRadioGroup.getCheckedRadioButtonId() == -1) {
+						Toast.makeText(SignUpActivity.this, getString(R.string.choose_a_genre), Toast.LENGTH_LONG).show();
+						return;
+					}
+					if (mRadioButton.getText() == getString(R.string.woman)) {
+						mGenreResult = 0;
+					}
+					if (mRadioButton.getText() == getString(R.string.man)) {
+						mGenreResult = 1;
+					}
+					
                     progressBar.setVisibility(View.VISIBLE);
                     //create user
                     mAuth.createUserWithEmailAndPassword(email, password)
@@ -122,6 +142,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     values.put("current_points", 0);
 									values.put("current_email", email);
 									values.put("current_pix", pixkey);
+									values.put("current_genre", mGenreResult);
                                     values.put("current_device", device_manufacturer + " " + device_model);
                                     values.put("current_username", fullname);
 									values.put("current_app_version", versionName);

@@ -2,9 +2,26 @@
 <resources>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-	
-	
+	<!-- Padding sizes -->
 	<dimen name="padding_small">5.33333333333dp</dimen>
 	<dimen name="padding_medium">10.6666666666dp</dimen>
 	<dimen name="padding_large">16dp</dimen>
+	
+	<dimen name="margin_small">5.33333333333dp</dimen>
+	<dimen name="margin_medium">10.6666666666dp</dimen>
+	<dimen name="margin_large">16dp</dimen>
+	
+	
+	
+	<!-- Avatar sizes -->
+	<dimen name="avatar_small">24dp</dimen>
+	<dimen name="avatar_medium">48dp</dimen>
+	<dimen name="avatar_large">72dp</dimen>
+	<!-- Drawable's sizes -->
+	<dimen name="drawable_small">24dp</dimen>
+	<dimen name="drawable_medium">48dp</dimen>
+	<dimen name="drawable_large">72dp</dimen>
+	
+
+	
 </resources>

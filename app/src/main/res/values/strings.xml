@@ -85,8 +85,13 @@
     <string name="signout">Sair</string>
     <string name="special_thanks">Agradecimentos</string>
     <string name="the_email_address_is_already_in_use_by_another_account">O endereço de e-mail já está sendo usado por outra conta</string>
-    <string name="username">Nome completo</string>
+    <string name="username">Nome do usuário</string>
     <string name="version">Versão</string>
     <string name="version_number_unknown">Desconhecido</string>
     <string name="watching">Assistir</string>
+	
+	<string name="woman">Mulher</string>
+	<string name="man">Homem</string>
+	<string name="choose_a_genre">Escolha um gênero</string>
+	
 </resources>

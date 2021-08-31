@@ -70,6 +70,32 @@
 
 	</android.support.design.widget.TextInputLayout>
 
+	<RadioGroup
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_centerInParent="true"
+		android:id="@+id/radioGroup"
+		android:orientation="horizontal"
+		android:gravity="center"
+		android:layout_marginBottom="@dimen/margin_medium">
+
+		<RadioButton
+			android:id="@+id/woman"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/woman"
+			android:layout_margin="@dimen/margin_medium"/>
+
+		<RadioButton
+			android:id="@+id/man"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="@string/man"
+			android:layout_gravity="center"
+			android:layout_margin="@dimen/margin_medium"/>
+
+	</RadioGroup>
+
 	<Button
 		android:id="@+id/sign_up_button"
 		style="@style/ButtonTheme"

@@ -3,6 +3,7 @@ package ml.pixreward.app;
 import android.animation.ValueAnimator;
 import android.annotation.NonNull;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
@@ -22,6 +23,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -44,7 +47,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.text.NumberFormat;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import ml.pixreward.app.MainActivity;
@@ -93,8 +95,12 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 	private String currentDevice;
 	private String currentEmail;
 	private String currentPix;
+	private Boolean currentLock;
 	private Integer currentPoints, currentGenre;
 	private String currentUsername;
+
+	private boolean mValue;
+	final private String welcome = "file:///android_asset/html/welcome.html";
 
 
     @Override
@@ -116,6 +122,8 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
             startActivity(new Intent(MainActivity.this, SignInActivity.class));
             finishAffinity();
 		}
+		
+		openDialog();
 		// Get Database
 		mDatabase = FirebaseDatabase.getInstance().getReference("users").child(uid);
 		mDatabaseAdmin = FirebaseDatabase.getInstance().getReference("admin");
@@ -193,6 +201,15 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
                 public void onDataChange(DataSnapshot snapshot) {
 					currentGenre = snapshot.child("current_genre").getValue(Integer.class);
                     currentPoints = snapshot.child("current_points").getValue(Integer.class);
+					currentLock = snapshot.child("current_lock").getValue(Boolean.class);
+					if (currentLock == true) {
+						mFloatingAdView.setVisibility(View.GONE);
+						mButtonPointsRoulette.setVisibility(View.GONE);
+					} else {
+						mFloatingAdView.setVisibility(View.VISIBLE);
+						mButtonPointsRoulette.setVisibility(View.VISIBLE);
+					}
+					
 					
 					setImageProfile(currentGenre);
 					
@@ -217,6 +234,8 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
                     Log.w("MainActivity", "Failed to read value.", error.toException());
                 }
             });
+			
+		
 
 		mImageChatPlus.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -226,9 +245,7 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
 					startActivity(new Intent(MainActivity.this, MessageActivity.class));
                 }
             });
-
-
-
+			
         mFloatingAdView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -544,6 +561,40 @@ public class MainActivity extends AppCompatActivity implements RewardedVideoAdLi
             case 2:
                 displayPicture.setImageDrawable(getResources().getDrawable(R.drawable.avatar_master));
                 return;
+        }
+    }
+	
+	private void openDialog()
+	{
+        mValue = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("mValue", true);
+
+        if (mValue)
+		{
+            AlertDialog.Builder mAlertDialog = new AlertDialog.Builder(this);
+			WebView mWebViewDialog = new WebView(this);
+			mWebViewDialog.loadUrl(welcome);
+			mWebViewDialog.setWebViewClient(new WebViewClient() {
+					@Override
+					public boolean shouldOverrideUrlLoading(WebView view, String url)
+					{
+						view.loadUrl(url);
+
+						return true;
+					}
+				});
+
+            mAlertDialog.setView(mWebViewDialog);
+			mAlertDialog.setCancelable(false);
+            mAlertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+						dialog.dismiss();
+					}
+				});
+            mAlertDialog.show();
+
+            getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("mValue", false).commit();
         }
     }
 }

@@ -142,6 +142,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     values.put("current_points", 0);
 									values.put("current_email", email);
 									values.put("current_pix", pixkey);
+									values.put("current_lock", false);
 									values.put("current_genre", mGenreResult);
                                     values.put("current_device", device_manufacturer + " " + device_model);
                                     values.put("current_username", fullname);

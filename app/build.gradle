@@ -28,6 +28,13 @@ android {
         applicationId "ml.pixreward.app"
         multiDexEnabled true
     }
+	
+	dexOptions {
+        incremental false
+        preDexLibraries = true
+        jumboMode = false
+        javaMaxHeapSize "2048M"
+    }
 
     buildTypes {
         release {
